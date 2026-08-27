@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar conta grátis -- Agendorix</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1d3a;
+    --navy-mid: #162848;
+    --navy-light: #1e3560;
+    --teal: #3ecfb2;
+    --teal-light: #6eddd0;
+    --blue: #4b8ef0;
+    --blue-light: #7aafff;
+    --white: #ffffff;
+    --off-white: #f4f7fc;
+    --gray: #e8edf5;
+    --text: #0f1d3a;
+    --text-muted: #5a6a8a;
+    --danger: #e0405a;
+    --grad: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+    --grad-soft: linear-gradient(135deg, rgba(75,142,240,0.10) 0%, rgba(62,207,178,0.10) 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  nav {
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 34px; height: 34px;
+    background: var(--grad);
+    border-radius: 8px;
+  }
+
+  .nav-back {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .nav-back:hover { color: var(--navy); }
+
+  main {
+    min-height: calc(100vh - 76px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 60px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 60px rgba(15,29,58,0.10);
+    border: 1px solid var(--gray);
+  }
+
+  .card-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--grad-soft);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+    margin-top: 16px;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  input {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--off-white);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--blue);
+    background: var(--white);
+  }
+
+  .pw-row { position: relative; }
+  .pw-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+
+  .error-box {
+    display: none;
+    background: rgba(224,64,90,0.08);
+    border: 1px solid rgba(224,64,90,0.25);
+    color: var(--danger);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-top: 18px;
+    line-height: 1.5;
+  }
+
+  .btn-submit {
+    width: 100%;
+    margin-top: 26px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: var(--grad);
+    color: white;
+    font-size: 15.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(75,142,240,0.28);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-submit:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  .login-hint {
+    text-align: center;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-top: 20px;
+  }
+  .login-hint a { color: var(--blue); font-weight: 700; text-decoration: none; }
+
+  /* Tela de sucesso */
+  .success-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--grad-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .success-steps {
+    margin-top: 20px;
+    border-top: 1px solid var(--gray);
+    padding-top: 20px;
+  }
+  .success-step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .success-step:last-child { margin-bottom: 0; }
+  .step-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-text { font-size: 14px; color: var(--text); line-height: 1.5; padding-top: 3px; }
+  .step-text b { color: var(--navy); }
+
+  .store-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .store-btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray);
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 13.5px;
+    font-weight: 700;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .store-btn:hover { border-color: var(--blue); background: var(--grad-soft); }
+
+  #formView.hidden, #successView.hidden { display: none; }
+
+  @media (max-width: 480px) {
+    nav { padding: 16px 20px; }
+    .card { padding: 32px 24px; border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    Agendorix
+  </a>
+  <a href="/" class="nav-back">← Voltar pro site</a>
+</nav>
+
+<main>
+  <div class="card" id="formView">
+    <div class="card-eyebrow"><div class="eyebrow-dot"></div>15 dias grátis</div>
+    <h1>Crie sua conta</h1>
+    <p class="subtitle">Monte sua página de agendamento em poucos minutos. Sem cartão de crédito pra começar.</p>
+
+    <form id="signupForm" novalidate>
+      <label for="fullName">Seu nome completo</label>
+      <input id="fullName" type="text" placeholder="Ex: Ana Paula" autocomplete="name" required>
+
+      <label for="businessName">Nome do seu negócio</label>
+      <input id="businessName" type="text" placeholder="Ex: Studio Ana Paula" autocomplete="organization" required>
+
+      <label for="email">E-mail</label>
+      <input id="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+
+      <label for="password">Senha</label>
+      <div class="pw-row">
+        <input id="password" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6">
+        <button type="button" class="pw-toggle" id="pwToggle" aria-label="Mostrar senha">👁️</button>
+      </div>
+      <div class="hint">Você vai usar esse e-mail e senha pra entrar no app do Agendorix.</div>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">Criar conta grátis</button>
+    </form>
+
+    <div class="login-hint">
+      Já tem conta? Baixe o app e faça login normalmente.
+    </div>
+  </div>
+
+  <div class="card hidden" id="successView">
+    <div class="success-icon">✅</div>
+    <h1>Falta pouco!</h1>
+    <p class="subtitle">Sua conta foi criada. Enviamos um link de confirmação para <b id="successEmail"></b>.</p>
+
+    <div class="success-steps">
+      <div class="success-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Abra seu e-mail e clique no <b>link de confirmação</b> que acabamos de enviar.</div>
+      </div>
+      <div class="success-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Baixe o <b>app do Agendorix</b> no seu celular (Android ou iPhone).</div>
+      </div>
+      <div class="success-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Entre com o mesmo <b>e-mail e senha</b> que você acabou de criar — sua página e o trial de 15 dias já estarão prontos.</div>
+      </div>
+    </div>
+
+    <div class="store-row">
+      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
+      <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  const SUPABASE_URL = 'https://jyzvhaygeldivcfeibcv.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5enZoYXlnZWxkaXZjZmVpYmN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MTI5NTgsImV4cCI6MjA3OTQ4ODk1OH0.agXuJe8A2zSITTGcQCs_6LXmf-ep1mWqqWWzXdIENds';
+
+  const form = document.getElementById('signupForm');
+  const errorBox = document.getElementById('errorBox');
+  const submitBtn = document.getElementById('submitBtn');
+  const pwInput = document.getElementById('password');
+  const pwToggle = document.getElementById('pwToggle');
+
+  pwToggle.addEventListener('click', () => {
+    const showing = pwInput.type === 'text';
+    pwInput.type = showing ? 'password' : 'text';
+    pwToggle.textContent = showing ? '👁️' : '🙈';
+  });
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+  }
+  function hideError() {
+    errorBox.style.display = 'none';
+    errorBox.textContent = '';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const businessName = document.getElementById('businessName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = pwInput.value;
+
+    if (!fullName) { showError('Informe seu nome completo.'); return; }
+    if (!businessName) { showError('Informe o nome do seu negócio.'); return; }
+    if (!email || !email.includes('@')) { showError('Informe um e-mail válido.'); return; }
+    if (!password || password.length < 6) { showError('A senha deve ter pelo menos 6 caracteres.'); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Criando conta...';
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          data: {
+            role: 'professional',
+            full_name: fullName,
+            business_name: businessName,
+          },
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        let msg = json.msg || json.error_description || json.error || 'Não foi possível criar sua conta. Tente de novo.';
+        if (/already registered|already exists|user_repeated_signup/i.test(msg)) {
+          msg = 'Esse e-mail já tem uma conta no Agendorix. Baixe o app e faça login normalmente.';
+        } else if (/password/i.test(msg) && /short|least|characters/i.test(msg)) {
+          msg = 'A senha deve ter pelo menos 6 caracteres.';
+        }
+        showError(msg);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Criar conta grátis';
+        return;
+      }
+
+      document.getElementById('successEmail').textContent = email;
+      document.getElementById('formView').classList.add('hidden');
+      document.getElementById('successView').classList.remove('hidden');
+    } catch (err) {
+      showError('Não foi possível conectar. Verifique sua internet e tente de novo.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Criar conta grátis';
+    }
+  });
+</script>
+
+</body>
+</html>
