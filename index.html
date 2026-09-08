@@ -540,6 +540,59 @@ box-shadow: 0 6px 16px rgba(75,142,240,0.25);
 .feat-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .feat-desc { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
 
+/* TUTORIALS */
+.tutorials { padding: 96px 48px; background: var(--white); }
+
+.tutorial-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
+justify-content: center;
+gap: 24px;
+}
+
+.tutorial-card {
+display: block;
+text-decoration: none;
+color: inherit;
+background: var(--off-white);
+border-radius: 16px;
+overflow: hidden;
+border: 1px solid var(--gray);
+transition: all 0.2s;
+}
+
+.tutorial-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 16px 48px rgba(75,142,240,0.1);
+border-color: rgba(75,142,240,0.25);
+}
+
+.tutorial-thumb {
+position: relative;
+width: 100%;
+aspect-ratio: 9 / 16;
+background: var(--navy);
+overflow: hidden;
+}
+
+.tutorial-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.tutorial-play {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+width: 52px; height: 52px;
+border-radius: 50%;
+background: rgba(255,255,255,0.94);
+color: var(--blue);
+display: flex; align-items: center; justify-content: center;
+font-size: 18px;
+box-shadow: 0 8px 20px rgba(15,29,58,0.35);
+}
+
+.tutorial-title { font-size: 15.5px; font-weight: 700; color: var(--navy); padding: 16px 18px 4px; }
+.tutorial-desc { font-size: 13px; line-height: 1.6; color: var(--text-muted); padding: 0 18px 18px; }
+
 /* HOW */
 .how {
 padding: 96px 48px;
@@ -875,6 +928,8 @@ nav { padding: 0 20px; }
 .feat-grid { grid-template-columns: 1fr; }
 .how { padding: 64px 24px; }
 .steps { grid-template-columns: 1fr 1fr; gap: 12px; }
+.tutorials { padding: 64px 24px; }
+.tutorial-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 200px)); }
 .pricing { padding: 64px 24px; }
 .price-grid { grid-template-columns: 1fr; }
 .price-card.featured { transform: none; }
@@ -1073,6 +1128,33 @@ footer { flex-direction: column; padding: 32px 24px; text-align: center; }
     </div>
   </div>
 </section>
+
+<section class="tutorials" id="tutorials">
+  <div class="wrap">
+    <div class="sec-header fade-up">
+      <div class="sec-tag">Vídeos</div>
+      <h2>Aprenda em poucos minutos</h2>
+      <p class="sec-sub">Vídeos curtos mostrando como usar o Agendorix na prática.</p>
+    </div>
+    <div class="tutorial-grid" id="tutorialGrid"></div>
+  </div>
+</section>
+<script>
+  // Adicione novos vídeos aqui — cada um vira um card automaticamente.
+  const TUTORIAL_VIDEOS = [
+    { id: 'QaQbK7x0jfs', title: 'Como editar sua agenda', desc: 'Configure horários, bloqueios e folgas em poucos passos.' },
+  ];
+  document.getElementById('tutorialGrid').innerHTML = TUTORIAL_VIDEOS.map(v => `
+    <a href="https://youtube.com/shorts/${v.id}" target="_blank" rel="noopener" class="tutorial-card fade-up">
+      <div class="tutorial-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="tutorial-play">▶</div>
+      </div>
+      <div class="tutorial-title">${v.title}</div>
+      <p class="tutorial-desc">${v.desc}</p>
+    </a>
+  `).join('');
+</script>
 
 <section class="pricing" id="pricing">
   <div class="wrap">

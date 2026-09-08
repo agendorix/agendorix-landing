@@ -231,6 +231,47 @@
   .step-text { font-size: 14px; color: var(--text); line-height: 1.5; padding-top: 3px; }
   .step-text b { color: var(--navy); }
 
+  .tutorial-row {
+    margin-top: 24px;
+    border-top: 1px solid var(--gray);
+    padding-top: 20px;
+  }
+  .tutorial-label { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .tutorial-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    background: var(--off-white);
+    border: 1px solid var(--gray);
+    border-radius: 12px;
+    padding: 10px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .tutorial-card:hover { border-color: var(--blue); background: var(--grad-soft); }
+  .tutorial-thumb {
+    position: relative;
+    width: 56px; height: 88px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .tutorial-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tutorial-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.94);
+    color: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .tutorial-title { font-size: 13.5px; font-weight: 700; color: var(--navy); }
+  .tutorial-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
   .store-row {
     display: flex;
     gap: 10px;
@@ -337,6 +378,11 @@
       <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
       <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
     </div>
+
+    <div class="tutorial-row">
+      <div class="tutorial-label">Enquanto isso, veja como funciona:</div>
+      <div id="tutorialList"></div>
+    </div>
   </div>
 
   <div class="help-note">
@@ -349,6 +395,23 @@
 <script>
   const SUPABASE_URL = 'https://jyzvhaygeldivcfeibcv.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5enZoYXlnZWxkaXZjZmVpYmN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MTI5NTgsImV4cCI6MjA3OTQ4ODk1OH0.agXuJe8A2zSITTGcQCs_6LXmf-ep1mWqqWWzXdIENds';
+
+  // Adicione novos vídeos aqui — cada um vira uma linha automaticamente.
+  const TUTORIAL_VIDEOS = [
+    { id: 'QaQbK7x0jfs', title: 'Como editar sua agenda', desc: 'Configure horários, bloqueios e folgas em poucos passos.' },
+  ];
+  document.getElementById('tutorialList').innerHTML = TUTORIAL_VIDEOS.map(v => `
+    <a href="https://youtube.com/shorts/${v.id}" target="_blank" rel="noopener" class="tutorial-card">
+      <div class="tutorial-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="tutorial-play">▶</div>
+      </div>
+      <div>
+        <div class="tutorial-title">${v.title}</div>
+        <div class="tutorial-desc">${v.desc}</div>
+      </div>
+    </a>
+  `).join('');
 
   const form = document.getElementById('signupForm');
   const errorBox = document.getElementById('errorBox');
