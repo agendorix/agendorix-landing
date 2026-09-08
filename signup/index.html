@@ -356,10 +356,10 @@
 
   <div class="card hidden" id="successView">
     <div class="success-icon">✅</div>
-    <h1>Falta pouco!</h1>
-    <p class="subtitle">Sua conta foi criada. Enviamos um link de confirmação para <b id="successEmail"></b>.</p>
+    <h1 id="successTitle">Falta pouco!</h1>
+    <p class="subtitle" id="successSubtitle">Sua conta foi criada. Enviamos um link de confirmação para <b id="successEmail"></b>.</p>
 
-    <div class="success-steps">
+    <div class="success-steps" id="successSteps">
       <div class="success-step">
         <div class="step-num">1</div>
         <div class="step-text">Abra seu e-mail e clique no <b>link de confirmação</b> que acabamos de enviar.</div>
@@ -413,6 +413,17 @@
     </a>
   `).join('');
 
+  // Se o usuário chegou aqui vindo do link de confirmação de e-mail
+  // (redirect_to enviado no cadastro), mostra a tela de "confirmado"
+  // em vez do formulário.
+  if (new URLSearchParams(window.location.search).get('confirmado') === '1') {
+    document.getElementById('formView').classList.add('hidden');
+    document.getElementById('successView').classList.remove('hidden');
+    document.getElementById('successTitle').textContent = 'E-mail confirmado! ✅';
+    document.getElementById('successSubtitle').textContent = 'Agora baixe o app do Agendorix e faça login com o e-mail e a senha que você acabou de criar.';
+    document.getElementById('successSteps').style.display = 'none';
+  }
+
   const form = document.getElementById('signupForm');
   const errorBox = document.getElementById('errorBox');
   const submitBtn = document.getElementById('submitBtn');
@@ -452,7 +463,8 @@
     submitBtn.textContent = 'Criando conta...';
 
     try {
-      const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+      const redirectTo = encodeURIComponent(`${window.location.origin}${window.location.pathname}?confirmado=1`);
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/signup?redirect_to=${redirectTo}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
