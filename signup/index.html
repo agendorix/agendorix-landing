@@ -237,6 +237,7 @@
     padding-top: 20px;
   }
   .tutorial-label { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  #tutorialList { display: flex; flex-direction: column; gap: 10px; }
   .tutorial-card {
     display: flex;
     gap: 12px;
@@ -399,6 +400,7 @@
   // Adicione novos vídeos aqui — cada um vira uma linha automaticamente.
   const TUTORIAL_VIDEOS = [
     { id: 'QaQbK7x0jfs', title: 'Como editar sua agenda', desc: 'Configure horários, bloqueios e folgas em poucos passos.' },
+    { id: '7v-_hFQfFG0', title: 'Como editar seus serviços', desc: 'Crie, edite e organize os serviços do seu negócio.' },
   ];
   document.getElementById('tutorialList').innerHTML = TUTORIAL_VIDEOS.map(v => `
     <a href="https://youtube.com/shorts/${v.id}" target="_blank" rel="noopener" class="tutorial-card">
