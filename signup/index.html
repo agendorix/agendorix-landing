@@ -158,6 +158,62 @@
     margin-top: 5px;
   }
 
+  .plan-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: -2px;
+    margin-bottom: 10px;
+  }
+
+  .plan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .plan-card {
+    text-align: left;
+    width: 100%;
+    background: var(--off-white);
+    border: 1.5px solid var(--gray);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .plan-card:hover { border-color: var(--blue); }
+  .plan-card.selected {
+    border-color: var(--blue);
+    background: var(--grad-soft);
+  }
+
+  .plan-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .plan-card-name {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .plan-card.selected .plan-card-name { color: var(--blue); }
+
+  .plan-card-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+  .plan-card.selected .plan-card-price { color: var(--blue); }
+
+  .plan-card-feature {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
   .error-box {
     display: none;
     background: rgba(224,64,90,0.08);
@@ -335,6 +391,10 @@
       <label for="businessName">Nome do seu negócio</label>
       <input id="businessName" type="text" placeholder="Ex: Studio Ana Paula" autocomplete="organization" required>
 
+      <label>Escolha seu plano</label>
+      <div class="plan-hint">15 dias grátis em qualquer plano, sem cobrança agora.</div>
+      <div class="plan-list" id="planList"></div>
+
       <label for="email">E-mail</label>
       <input id="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
 
@@ -396,6 +456,46 @@
 <script>
   const SUPABASE_URL = 'https://jyzvhaygeldivcfeibcv.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5enZoYXlnZWxkaXZjZmVpYmN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MTI5NTgsImV4cCI6MjA3OTQ4ODk1OH0.agXuJe8A2zSITTGcQCs_6LXmf-ep1mWqqWWzXdIENds';
+  const BACKEND_URL = 'https://agendorix-production.up.railway.app';
+
+  // Fallback de último recurso, caso o backend esteja fora do ar — mantido
+  // em sincronia manual com backend/src/config/plans.ts no repo do app.
+  const FALLBACK_PLANS = [
+    { key: 'basic', label: 'Basic', priceCents: 2990, features: ['1 profissional (só você)'] },
+    { key: 'intermediate', label: 'Intermediário', priceCents: 4990, features: ['Tudo do Basic'] },
+    { key: 'pro', label: 'Pro', priceCents: 7990, features: ['Tudo do Intermediário'] },
+  ];
+
+  let selectedPlan = 'basic';
+
+  function formatPlanPrice(cents) {
+    return `R$${(cents / 100).toFixed(2).replace('.', ',')}/mês`;
+  }
+
+  function renderPlans(plans) {
+    const list = document.getElementById('planList');
+    list.innerHTML = plans.map(p => `
+      <button type="button" class="plan-card${p.key === selectedPlan ? ' selected' : ''}" data-plan="${p.key}">
+        <div class="plan-card-header">
+          <span class="plan-card-name">${p.label}</span>
+          <span class="plan-card-price">${formatPlanPrice(p.priceCents)}</span>
+        </div>
+        <div class="plan-card-feature">${p.features[0] ?? ''}</div>
+      </button>
+    `).join('');
+    list.querySelectorAll('.plan-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedPlan = btn.dataset.plan;
+        list.querySelectorAll('.plan-card').forEach(b => b.classList.toggle('selected', b === btn));
+      });
+    });
+  }
+
+  renderPlans(FALLBACK_PLANS);
+  fetch(`${BACKEND_URL}/billing/plans`)
+    .then(res => res.ok ? res.json() : Promise.reject())
+    .then(json => { if (Array.isArray(json.plans) && json.plans.length > 0) renderPlans(json.plans); })
+    .catch(() => { /* mantém o fallback já renderizado */ });
 
   // Adicione novos vídeos aqui — cada um vira uma linha automaticamente.
   const TUTORIAL_VIDEOS = [
@@ -480,6 +580,7 @@
             role: 'professional',
             full_name: fullName,
             business_name: businessName,
+            plan: selectedPlan,
           },
         }),
       });
