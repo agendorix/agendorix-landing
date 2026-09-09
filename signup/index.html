@@ -367,6 +367,17 @@
     .card { padding: 32px 24px; border-radius: 16px; }
   }
 </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18440732243"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18440732243');
+</script>
+
 </head>
 <body>
 
@@ -603,6 +614,17 @@
       document.getElementById('successEmail').textContent = email;
       document.getElementById('formView').classList.add('hidden');
       document.getElementById('successView').classList.remove('hidden');
+
+      // Conversão Google Ads: dispara só quando o cadastro é enviado com
+      // sucesso (não em toda visita à página, senão infla a métrica com
+      // gente que só passou por aqui sem se cadastrar).
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-18440732243/mxmvCIrJofIcENP8nNlE',
+          'value': 1.0,
+          'currency': 'BRL',
+        });
+      }
     } catch (err) {
       showError('Não foi possível conectar. Verifique sua internet e tente de novo.');
       submitBtn.disabled = false;
