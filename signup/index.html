@@ -420,6 +420,10 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <label for="businessName">Nome do seu negócio</label>
       <input id="businessName" type="text" placeholder="Ex: Studio Ana Paula" autocomplete="organization" required>
 
+      <label for="phone">WhatsApp <span style="font-weight:400;color:var(--text-muted);">(opcional)</span></label>
+      <input id="phone" type="tel" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="tel">
+      <div class="hint">Só usamos pra te ajudar caso você trave em algum passo do cadastro.</div>
+
       <label>Escolha seu plano</label>
       <div class="plan-hint">15 dias grátis em qualquer plano, sem cobrança agora.</div>
       <div class="plan-list" id="planList"></div>
@@ -584,11 +588,14 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 
     const fullName = document.getElementById('fullName').value.trim();
     const businessName = document.getElementById('businessName').value.trim();
+    const phoneRaw = document.getElementById('phone').value.trim();
+    const phone = phoneRaw ? phoneRaw.replace(/\D/g, '') : '';
     const email = document.getElementById('email').value.trim();
     const password = pwInput.value;
 
     if (!fullName) { showError('Informe seu nome completo.'); return; }
     if (!businessName) { showError('Informe o nome do seu negócio.'); return; }
+    if (phone && phone.length < 10) { showError('Informe um WhatsApp válido (com DDD) ou deixe em branco.'); return; }
     if (!email || !email.includes('@')) { showError('Informe um e-mail válido.'); return; }
     if (!password || password.length < 6) { showError('A senha deve ter pelo menos 6 caracteres.'); return; }
 
@@ -610,6 +617,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
             role: 'professional',
             full_name: fullName,
             business_name: businessName,
+            phone: phone || null,
             plan: selectedPlan,
           },
         }),
