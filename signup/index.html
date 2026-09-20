@@ -396,6 +396,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<!-- Cloudflare Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
 <body>
 
@@ -438,6 +441,8 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       </div>
       <div class="hint">Você vai usar esse e-mail e senha pra entrar no app do Agendorix.</div>
 
+      <div class="cf-turnstile" id="turnstileWidget" data-sitekey="0x4AAAAAAE9AOD7z45DY4Bge" style="margin-top:18px;"></div>
+
       <div class="error-box" id="errorBox"></div>
 
       <button type="submit" class="btn-submit" id="submitBtn">Criar conta grátis</button>
@@ -450,20 +455,16 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 
   <div class="card hidden" id="successView">
     <div class="success-icon">✅</div>
-    <h1 id="successTitle">Falta pouco!</h1>
-    <p class="subtitle" id="successSubtitle">Sua conta foi criada. Enviamos um link de confirmação para <b id="successEmail"></b>.</p>
+    <h1 id="successTitle">Conta criada!</h1>
+    <p class="subtitle" id="successSubtitle">Baixe o app do Agendorix e faça login com o e-mail e a senha que você acabou de criar.</p>
 
     <div class="success-steps" id="successSteps">
       <div class="success-step">
         <div class="step-num">1</div>
-        <div class="step-text">Abra seu e-mail e clique no <b>link de confirmação</b> que acabamos de enviar.</div>
-      </div>
-      <div class="success-step">
-        <div class="step-num">2</div>
         <div class="step-text">Baixe o <b>app do Agendorix</b> no seu celular (Android ou iPhone).</div>
       </div>
       <div class="success-step">
-        <div class="step-num">3</div>
+        <div class="step-num">2</div>
         <div class="step-text">Entre com o mesmo <b>e-mail e senha</b> que você acabou de criar — sua página e o trial de 15 dias já estarão prontos.</div>
       </div>
     </div>
@@ -487,8 +488,6 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 </main>
 
 <script>
-  const SUPABASE_URL = 'https://jyzvhaygeldivcfeibcv.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5enZoYXlnZWxkaXZjZmVpYmN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MTI5NTgsImV4cCI6MjA3OTQ4ODk1OH0.agXuJe8A2zSITTGcQCs_6LXmf-ep1mWqqWWzXdIENds';
   const BACKEND_URL = 'https://agendorix-production.up.railway.app';
 
   // Fallback de último recurso, caso o backend esteja fora do ar — mantido
@@ -599,46 +598,43 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     if (!email || !email.includes('@')) { showError('Informe um e-mail válido.'); return; }
     if (!password || password.length < 6) { showError('A senha deve ter pelo menos 6 caracteres.'); return; }
 
+    const captchaToken = typeof turnstile !== 'undefined' ? turnstile.getResponse('#turnstileWidget') : '';
+    if (!captchaToken) { showError('Confirme que você não é um robô no captcha antes de continuar.'); return; }
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Criando conta...';
 
     try {
-      const redirectTo = encodeURIComponent(`${window.location.origin}${window.location.pathname}?confirmado=1`);
-      const res = await fetch(`${SUPABASE_URL}/auth/v1/signup?redirect_to=${redirectTo}`, {
+      const res = await fetch(`${BACKEND_URL}/public/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
         },
         body: JSON.stringify({
+          fullName,
+          businessName,
+          phone: phone || null,
           email,
           password,
-          data: {
-            role: 'professional',
-            full_name: fullName,
-            business_name: businessName,
-            phone: phone || null,
-            plan: selectedPlan,
-          },
+          plan: selectedPlan,
+          captchaToken,
         }),
       });
 
       const json = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        let msg = json.msg || json.error_description || json.error || 'Não foi possível criar sua conta. Tente de novo.';
-        if (/already registered|already exists|user_repeated_signup/i.test(msg)) {
+        let msg = json.message || 'Não foi possível criar sua conta. Tente de novo.';
+        if (json.error === 'email_already_registered') {
           msg = 'Esse e-mail já tem uma conta no Agendorix. Baixe o app e faça login normalmente.';
-        } else if (/password/i.test(msg) && /short|least|characters/i.test(msg)) {
-          msg = 'A senha deve ter pelo menos 6 caracteres.';
         }
         showError(msg);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Criar conta grátis';
+        if (typeof turnstile !== 'undefined') turnstile.reset('#turnstileWidget');
         return;
       }
 
-      document.getElementById('successEmail').textContent = email;
       document.getElementById('formView').classList.add('hidden');
       document.getElementById('successView').classList.remove('hidden');
 
@@ -665,6 +661,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       showError('Não foi possível conectar. Verifique sua internet e tente de novo.');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Criar conta grátis';
+      if (typeof turnstile !== 'undefined') turnstile.reset('#turnstileWidget');
     }
   });
 </script>
