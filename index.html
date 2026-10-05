@@ -907,6 +907,25 @@ footer { flex-direction: column; padding: 32px 24px; text-align: center; }
 }
 </style>
 
+<script>
+  // Origem do cadastro: guarda UTM / click IDs dos anúncios (último clique pago)
+  // pro /signup mandar junto. Mesmo trecho em index.html e signup/index.html.
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
+      var a = {}, paid = false;
+      keys.forEach(function (k) { var v = p.get(k); if (v) { a[k] = v; paid = true; } });
+      var ref = document.referrer && document.referrer.indexOf(location.host) === -1 ? document.referrer : '';
+      if (paid || (ref && !localStorage.getItem('agx_attr'))) {
+        if (ref) a.referrer = ref;
+        a.landing_path = location.pathname;
+        a.captured_at = new Date().toISOString();
+        localStorage.setItem('agx_attr', JSON.stringify(a));
+      }
+    } catch (e) {}
+  })();
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18440732243"></script>
 <script>
