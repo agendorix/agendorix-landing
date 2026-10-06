@@ -349,7 +349,95 @@
   }
   .store-btn:hover { border-color: var(--blue); background: var(--grad-soft); }
 
-  #formView.hidden, #successView.hidden { display: none; }
+  #formView.hidden, #successView.hidden, #setupView.hidden, #publishedView.hidden { display: none; }
+
+  /* Configuração da agenda (tela de sucesso + ?setup=TOKEN) */
+  .section-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 24px 0 4px;
+  }
+  .section-hint { font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+  .svc-list { display: flex; flex-direction: column; gap: 10px; }
+  .svc-row {
+    background: var(--off-white);
+    border: 1.5px solid var(--gray);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .svc-row.off { opacity: 0.5; }
+  .svc-top { display: flex; align-items: center; gap: 10px; }
+  .svc-top input[type=checkbox] { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--blue); }
+  .svc-top .svc-name { padding: 9px 10px; font-weight: 700; background: var(--white); }
+  .svc-bottom { display: flex; gap: 10px; margin-top: 8px; padding-left: 30px; }
+  .svc-field { flex: 1; min-width: 0; margin: 0; }
+  .svc-field span { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 3px; }
+  .svc-field select, .svc-field input { padding: 9px 10px; font-size: 14px; background: var(--white); }
+  .price-wrap { position: relative; }
+  .price-wrap::before {
+    content: 'R$';
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+  }
+  .price-wrap input { padding-left: 32px; }
+  .btn-link {
+    background: none; border: none; color: var(--blue);
+    font-family: inherit; font-size: 13.5px; font-weight: 700;
+    cursor: pointer; padding: 8px 0; margin-top: 4px;
+  }
+  .day-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .day-chip {
+    flex: 1; min-width: 40px;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray);
+    background: var(--off-white);
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .day-chip.on { border-color: var(--blue); background: var(--grad-soft); color: var(--blue); }
+  .hours-row { display: flex; gap: 10px; align-items: center; }
+  .hours-row select { flex: 1; }
+  .hours-row .sep { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+  .skip-row { text-align: center; margin-top: 14px; }
+  .skip-row button { background: none; border: none; color: var(--text-muted); font-family: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; }
+
+  .link-box {
+    margin-top: 6px;
+    background: var(--grad-soft);
+    border: 1.5px solid rgba(75,142,240,0.35);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px; font-weight: 800; color: var(--navy);
+    word-break: break-all;
+    text-align: center;
+  }
+  .link-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .link-actions a, .link-actions button {
+    flex: 1;
+    text-align: center;
+    padding: 12px 6px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray);
+    background: var(--white);
+    font-family: inherit; font-size: 13.5px; font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .link-actions .primary { background: #25d366; border-color: #25d366; color: white; }
+  .note-box {
+    margin-top: 16px;
+    background: #fff8e6;
+    border: 1px solid #f3dca0;
+    color: #7a5a00;
+    font-size: 13px; line-height: 1.5;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+  .note-box.hidden { display: none; }
 
   .help-note {
     width: 100%;
@@ -493,6 +581,61 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     </div>
   </div>
 
+  <div class="card hidden" id="setupView">
+    <div class="card-eyebrow"><div class="eyebrow-dot"></div>Conta criada ✅</div>
+    <h1>Agora monte sua agenda</h1>
+    <p class="subtitle" id="setupSubtitle">Leva 1 minuto. No fim você recebe o link pra mandar pros seus clientes agendarem sozinhos — sem precisar do app.</p>
+
+    <div class="section-label">Seus serviços</div>
+    <div class="section-hint">Ajuste o que quiser. Deixe o preço em branco se for a combinar.</div>
+    <div class="svc-list" id="svcList"></div>
+    <button type="button" class="btn-link" id="addSvcBtn">+ Adicionar serviço</button>
+
+    <div class="section-label">Dias de atendimento</div>
+    <div class="day-row" id="dayRow"></div>
+
+    <div class="section-label">Horário</div>
+    <div class="hours-row">
+      <select id="startTime" aria-label="Início"></select>
+      <span class="sep">até</span>
+      <select id="endTime" aria-label="Fim"></select>
+    </div>
+    <div class="hint">Depois dá pra ajustar horário de almoço, folgas e horários diferentes por dia no app.</div>
+
+    <div class="error-box" id="setupError"></div>
+
+    <button type="button" class="btn-submit" id="publishBtn">Publicar minha agenda</button>
+    <div class="skip-row"><button type="button" id="skipSetupBtn">Prefiro configurar depois no app</button></div>
+  </div>
+
+  <div class="card hidden" id="publishedView">
+    <div class="success-icon">🎉</div>
+    <h1 id="publishedTitle">Sua agenda está no ar!</h1>
+    <p class="subtitle">Mande esse link pros seus clientes. Eles escolhem o serviço e o horário, e você recebe o aviso no seu WhatsApp e e-mail.</p>
+
+    <div class="link-box" id="bookingLink"></div>
+    <div class="link-actions">
+      <button type="button" id="copyLinkBtn">Copiar</button>
+      <a href="#" target="_blank" rel="noopener" class="primary" id="shareWaBtn">WhatsApp</a>
+      <a href="#" target="_blank" rel="noopener" id="viewLinkBtn">Ver página</a>
+    </div>
+
+    <div class="note-box hidden" id="confirmNote">
+      Como algum serviço ficou com preço <b>a combinar</b>, cada agendamento chega pra você <b>confirmar ou recusar</b> antes de valer. Quando colocar os preços no app, os agendamentos passam a ser confirmados na hora.
+    </div>
+
+    <div class="success-steps">
+      <div class="success-step">
+        <div class="step-num">✓</div>
+        <div class="step-text">Pra ver sua agenda, mudar horários e cadastrar clientes, baixe o <b>app do Agendorix</b> e entre com o mesmo <b>e-mail e senha</b>.</div>
+      </div>
+    </div>
+    <div class="store-row">
+      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
+      <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+    </div>
+  </div>
+
   <div class="card hidden" id="successView">
     <div class="success-icon">✅</div>
     <h1 id="successTitle">Conta criada!</h1>
@@ -598,6 +741,198 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     document.getElementById('successTitle').textContent = 'E-mail confirmado! ✅';
     document.getElementById('successSubtitle').textContent = 'Agora baixe o app do Agendorix e faça login com o e-mail e a senha que você acabou de criar.';
     document.getElementById('successSteps').style.display = 'none';
+  }
+
+  // ---------------------------------------------------------------
+  // Configuração da agenda sem app: tela logo depois do cadastro e
+  // link do e-mail de lembrete (?setup=TOKEN). Usa POST
+  // /public/setup/:token/publish do backend (código de uso único).
+  // ---------------------------------------------------------------
+  const DAY_LABELS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const DURATIONS = [15, 20, 30, 40, 45, 50, 60, 75, 90, 120, 150, 180, 240];
+  const MAX_SERVICES = 8;
+  let setupToken = null;
+  let selectedDays = new Set([1, 2, 3, 4, 5, 6]);
+
+  function showView(id) {
+    ['formView', 'setupView', 'publishedView', 'successView'].forEach(v =>
+      document.getElementById(v).classList.toggle('hidden', v !== id));
+    window.scrollTo(0, 0);
+  }
+
+  function durationLabel(min) {
+    if (min < 60) return `${min} min`;
+    const h = Math.floor(min / 60), m = min % 60;
+    return m ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`;
+  }
+
+  function addServiceRow(name, duration) {
+    const list = document.getElementById('svcList');
+    if (list.children.length >= MAX_SERVICES) return;
+    const row = document.createElement('div');
+    row.className = 'svc-row';
+    row.innerHTML = `
+      <div class="svc-top">
+        <input type="checkbox" class="svc-on" checked aria-label="Incluir serviço">
+        <input type="text" class="svc-name" maxlength="60" placeholder="Nome do serviço">
+      </div>
+      <div class="svc-bottom">
+        <label class="svc-field"><span>Duração</span><select class="svc-dur"></select></label>
+        <label class="svc-field"><span>Quanto você cobra?</span>
+          <div class="price-wrap"><input type="text" class="svc-price" inputmode="decimal" placeholder="a combinar"></div>
+        </label>
+      </div>`;
+    row.querySelector('.svc-name').value = name || '';
+    const dur = row.querySelector('.svc-dur');
+    const opts = DURATIONS.includes(duration) || !duration ? DURATIONS : [...DURATIONS, duration].sort((a, b) => a - b);
+    opts.forEach(d => dur.add(new Option(durationLabel(d), d, false, d === (duration || 60))));
+    const on = row.querySelector('.svc-on');
+    on.addEventListener('change', () => row.classList.toggle('off', !on.checked));
+    list.appendChild(row);
+    document.getElementById('addSvcBtn').style.display = list.children.length >= MAX_SERVICES ? 'none' : '';
+    if (!name) row.querySelector('.svc-name').focus();
+  }
+
+  function fillTimeSelect(sel, def) {
+    for (let h = 5; h <= 23; h++) {
+      for (const m of [0, 30]) {
+        const t = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        sel.add(new Option(t, t, false, t === def));
+      }
+    }
+  }
+
+  function renderSetup(templates, businessName) {
+    if (businessName) {
+      document.getElementById('setupSubtitle').textContent =
+        `Leva 1 minuto. No fim você recebe o link de agendamento de “${businessName}” pra mandar pros seus clientes — sem precisar do app.`;
+    }
+    const list = document.getElementById('svcList');
+    list.innerHTML = '';
+    (templates && templates.length ? templates : [{}, {}]).forEach(t => addServiceRow(t.name, t.durationMinutes));
+
+    const dayRow = document.getElementById('dayRow');
+    dayRow.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach(d => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'day-chip' + (selectedDays.has(d) ? ' on' : '');
+      b.textContent = DAY_LABELS[d];
+      b.addEventListener('click', () => {
+        if (selectedDays.has(d)) selectedDays.delete(d); else selectedDays.add(d);
+        b.classList.toggle('on', selectedDays.has(d));
+      });
+      dayRow.appendChild(b);
+    });
+
+    const st = document.getElementById('startTime'), en = document.getElementById('endTime');
+    st.innerHTML = ''; en.innerHTML = '';
+    fillTimeSelect(st, '09:00');
+    fillTimeSelect(en, '18:00');
+    showView('setupView');
+  }
+
+  // "35", "35,50", "R$ 1.200,00" → número; vazio → null; lixo → NaN
+  function parsePrice(raw) {
+    let s = (raw || '').replace(/[R$\s]/g, '');
+    if (!s) return null;
+    if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+    return /^\d+(\.\d{1,2})?$/.test(s) ? Number(s) : NaN;
+  }
+
+  function setupError(msg) {
+    const box = document.getElementById('setupError');
+    box.textContent = msg;
+    box.style.display = msg ? 'block' : 'none';
+  }
+
+  function showPublished(url, requireConfirmation, alreadyConfigured) {
+    document.getElementById('bookingLink').textContent = url.replace('https://', '');
+    document.getElementById('viewLinkBtn').href = url;
+    document.getElementById('shareWaBtn').href =
+      'https://wa.me/?text=' + encodeURIComponent(`Agora você pode agendar comigo direto por aqui: ${url}`);
+    document.getElementById('copyLinkBtn').onclick = async () => {
+      const btn = document.getElementById('copyLinkBtn');
+      try { await navigator.clipboard.writeText(url); btn.textContent = 'Copiado ✓'; }
+      catch (e) { prompt('Copie o link:', url); }
+      setTimeout(() => { btn.textContent = 'Copiar'; }, 2500);
+    };
+    document.getElementById('confirmNote').classList.toggle('hidden', !requireConfirmation);
+    if (alreadyConfigured) document.getElementById('publishedTitle').textContent = 'Sua agenda já está no ar!';
+    showView('publishedView');
+  }
+
+  document.getElementById('addSvcBtn').addEventListener('click', () => addServiceRow('', 60));
+  document.getElementById('skipSetupBtn').addEventListener('click', () => showView('successView'));
+
+  document.getElementById('publishBtn').addEventListener('click', async () => {
+    setupError('');
+    const services = [];
+    for (const row of document.querySelectorAll('#svcList .svc-row')) {
+      if (!row.querySelector('.svc-on').checked) continue;
+      const name = row.querySelector('.svc-name').value.trim();
+      const priceRaw = row.querySelector('.svc-price').value;
+      if (!name) {
+        if (priceRaw.trim()) { setupError('Tem um serviço com preço mas sem nome.'); return; }
+        continue; // linha em branco: ignora
+      }
+      const price = parsePrice(priceRaw);
+      if (Number.isNaN(price) || price === 0) { setupError(`Preço inválido em "${name}". Use só números, ex: 35 ou 35,50 — ou deixe em branco.`); return; }
+      services.push({ name, durationMinutes: Number(row.querySelector('.svc-dur').value), price });
+    }
+    if (services.length === 0) { setupError('Marque pelo menos um serviço.'); return; }
+    if (selectedDays.size === 0) { setupError('Escolha pelo menos um dia de atendimento.'); return; }
+    const start = document.getElementById('startTime').value, end = document.getElementById('endTime').value;
+    if (start >= end) { setupError('O horário de início precisa ser antes do fim.'); return; }
+
+    const btn = document.getElementById('publishBtn');
+    btn.disabled = true;
+    btn.textContent = 'Publicando...';
+    try {
+      const res = await fetch(`${BACKEND_URL}/public/setup/${encodeURIComponent(setupToken)}/publish`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ services, days: [...selectedDays], start, end }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (res.ok) { showPublished(json.url, json.requireConfirmation, false); return; }
+      if (json.error === 'already_configured' && json.slug) {
+        showPublished(`https://book.agendorix.com.br/${json.slug}`, false, true); return;
+      }
+      if (json.error === 'invalid_or_expired') {
+        setupError('Esse link expirou ou já foi usado. Entre no app do Agendorix com seu e-mail e senha pra configurar sua agenda.');
+      } else {
+        setupError(json.message || 'Não foi possível publicar agora. Tente de novo em instantes.');
+      }
+    } catch (e) {
+      setupError('Não foi possível conectar. Verifique sua internet e tente de novo.');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Publicar minha agenda';
+  });
+
+  // Link do e-mail de lembrete: /signup/?setup=TOKEN
+  const setupParam = new URLSearchParams(window.location.search).get('setup');
+  if (setupParam) {
+    setupToken = setupParam;
+    document.getElementById('formView').classList.add('hidden');
+    fetch(`${BACKEND_URL}/public/setup/${encodeURIComponent(setupParam)}`)
+      .then(res => res.json().then(json => ({ ok: res.ok, json })))
+      .then(({ ok, json }) => {
+        if (!ok) throw new Error(json.message || 'invalid');
+        if (json.alreadyConfigured) {
+          showPublished(`https://book.agendorix.com.br/${json.slug}`, false, true);
+        } else {
+          document.querySelector('#setupView .card-eyebrow').innerHTML = '<div class="eyebrow-dot"></div>Falta pouco';
+          renderSetup(json.templates, json.businessName);
+        }
+      })
+      .catch(() => {
+        showView('successView');
+        document.getElementById('successTitle').textContent = 'Esse link expirou';
+        document.getElementById('successSubtitle').textContent = 'Sem problema: baixe o app do Agendorix e entre com seu e-mail e senha pra configurar sua agenda.';
+        document.getElementById('successSteps').style.display = 'none';
+      });
   }
 
   const form = document.getElementById('signupForm');
@@ -724,8 +1059,14 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         return;
       }
 
-      document.getElementById('formView').classList.add('hidden');
-      document.getElementById('successView').classList.remove('hidden');
+      // Negócio já criado no cadastro → monta a agenda aqui mesmo, sem app.
+      // Sem setupToken (falha ao criar o negócio), cai na tela antiga de baixar o app.
+      if (json.setupToken) {
+        setupToken = json.setupToken;
+        renderSetup(json.templates, businessName);
+      } else {
+        showView('successView');
+      }
 
       // Conversão Google Ads: dispara só quando o cadastro é enviado com
       // sucesso (não em toda visita à página, senão infla a métrica com
