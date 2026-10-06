@@ -58,12 +58,21 @@
   }
 
   .nav-back {
-    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #2f6fd6;
+    background: #e6f0ff;
+    border: 1.5px solid var(--blue);
     text-decoration: none;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    padding: 9px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(75,142,240,0.12);
+    transition: background 0.15s, border-color 0.15s;
   }
-  .nav-back:hover { color: var(--navy); }
+  .nav-back:hover { background: #d6e6ff; }
 
   main {
     min-height: calc(100vh - 76px);
@@ -754,11 +763,20 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   let setupToken = null;
   let selectedDays = new Set([1, 2, 3, 4, 5, 6]);
 
-  function showView(id) {
+  // Cada tela vira uma entrada no histórico, pra seta de voltar do navegador
+  // funcionar. mode: 'push' (nova entrada), 'replace' (troca a atual) ou
+  // 'none' (vindo do próprio popstate).
+  function showView(id, mode = 'push') {
     ['formView', 'setupView', 'publishedView', 'successView'].forEach(v =>
       document.getElementById(v).classList.toggle('hidden', v !== id));
+    if (mode === 'push') history.pushState({ view: id }, '');
+    else if (mode === 'replace') history.replaceState({ view: id }, '');
     window.scrollTo(0, 0);
   }
+
+  window.addEventListener('popstate', (e) => {
+    showView((e.state && e.state.view) || 'formView', 'none');
+  });
 
   function durationLabel(min) {
     if (min < 60) return `${min} min`;
@@ -802,7 +820,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     }
   }
 
-  function renderSetup(templates, businessName) {
+  function renderSetup(templates, businessName, mode = 'push') {
     if (businessName) {
       document.getElementById('setupSubtitle').textContent =
         `Leva 1 minuto. No fim você recebe o link de agendamento de “${businessName}” pra mandar pros seus clientes — sem precisar do app.`;
@@ -829,7 +847,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     st.innerHTML = ''; en.innerHTML = '';
     fillTimeSelect(st, '09:00');
     fillTimeSelect(en, '18:00');
-    showView('setupView');
+    showView('setupView', mode);
   }
 
   // "35", "35,50", "R$ 1.200,00" → número; vazio → null; lixo → NaN
@@ -846,7 +864,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     box.style.display = msg ? 'block' : 'none';
   }
 
-  function showPublished(url, requireConfirmation, alreadyConfigured) {
+  // Por padrão a tela de link substitui a de montar a agenda no histórico:
+  // o código já foi usado, voltar pra ela só daria erro.
+  function showPublished(url, requireConfirmation, alreadyConfigured, mode = 'replace') {
     document.getElementById('bookingLink').textContent = url.replace('https://', '');
     document.getElementById('viewLinkBtn').href = url;
     document.getElementById('shareWaBtn').href =
@@ -859,7 +879,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     };
     document.getElementById('confirmNote').classList.toggle('hidden', !requireConfirmation);
     if (alreadyConfigured) document.getElementById('publishedTitle').textContent = 'Sua agenda já está no ar!';
-    showView('publishedView');
+    showView('publishedView', mode);
   }
 
   document.getElementById('addSvcBtn').addEventListener('click', () => addServiceRow('', 60));
@@ -924,11 +944,11 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
           showPublished(`https://book.agendorix.com.br/${json.slug}`, false, true);
         } else {
           document.querySelector('#setupView .card-eyebrow').innerHTML = '<div class="eyebrow-dot"></div>Falta pouco';
-          renderSetup(json.templates, json.businessName);
+          renderSetup(json.templates, json.businessName, 'replace');
         }
       })
       .catch(() => {
-        showView('successView');
+        showView('successView', 'replace');
         document.getElementById('successTitle').textContent = 'Esse link expirou';
         document.getElementById('successSubtitle').textContent = 'Sem problema: baixe o app do Agendorix e entre com seu e-mail e senha pra configurar sua agenda.';
         document.getElementById('successSteps').style.display = 'none';
