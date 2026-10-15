@@ -437,6 +437,31 @@
     cursor: pointer;
   }
   .link-actions .primary { background: #25d366; border-color: #25d366; color: white; }
+  .next-steps { margin-top: 22px; border-top: 1px solid var(--gray); padding-top: 18px; }
+  .next-steps-label { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+  .next-step {
+    background: var(--off-white);
+    border: 1.5px solid var(--gray);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .next-step:last-child { margin-bottom: 0; }
+  .next-step-head { display: flex; gap: 12px; }
+  .next-step .store-row { margin-top: 12px; }
+  .step-btn {
+    display: block;
+    margin-top: 12px;
+    padding: 13px;
+    border-radius: 10px;
+    background: var(--grad);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14.5px; font-weight: 700;
+  }
+  .step-btn.wa { background: #25d366; }
+  .step-hint { font-size: 12px; color: var(--text-muted); margin-top: 8px; text-align: center; }
   .note-box {
     margin-top: 16px;
     background: #fff8e6;
@@ -620,28 +645,49 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   <div class="card hidden" id="publishedView">
     <div class="success-icon">🎉</div>
     <h1 id="publishedTitle">Sua agenda está no ar!</h1>
-    <p class="subtitle">Mande esse link pros seus clientes. Eles escolhem o serviço e o horário, e você recebe o aviso no seu WhatsApp e e-mail.</p>
+    <p class="subtitle">Seus clientes escolhem o serviço e o horário por esse link, e você recebe o aviso no seu WhatsApp e e-mail.</p>
 
     <div class="link-box" id="bookingLink"></div>
-    <div class="link-actions">
-      <button type="button" id="copyLinkBtn">Copiar</button>
-      <a href="#" target="_blank" rel="noopener" class="primary" id="shareWaBtn">WhatsApp</a>
-      <a href="#" target="_blank" rel="noopener" id="viewLinkBtn">Ver página</a>
-    </div>
 
     <div class="note-box hidden" id="confirmNote">
       Como algum serviço ficou com preço <b>a combinar</b>, cada agendamento chega pra você <b>confirmar ou recusar</b> antes de valer. Depois de colocar os preços no app, se quiser que confirme na hora, desligue a confirmação em <b>Editar Agenda → Regras</b>.
     </div>
 
-    <div class="success-steps">
-      <div class="success-step">
-        <div class="step-num">✓</div>
-        <div class="step-text">Pra ver sua agenda, mudar horários e cadastrar clientes, baixe o <b>app do Agendorix</b> e entre com o mesmo <b>e-mail e senha</b>.</div>
+    <div class="next-steps">
+      <div class="next-steps-label">Agora, 3 passos rápidos:</div>
+
+      <div class="next-step">
+        <div class="next-step-head">
+          <div class="step-num">1</div>
+          <div class="step-text"><b>Faça um teste</b> (30 segundos): marque um horário como se fosse cliente e veja o aviso chegar no seu WhatsApp.</div>
+        </div>
+        <a href="#" target="_blank" rel="noopener" class="step-btn" id="testBookingBtn">Fazer um agendamento de teste</a>
+        <div class="step-hint">Depois é só cancelar pelo app.</div>
       </div>
-    </div>
-    <div class="store-row">
-      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
-      <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+
+      <div class="next-step">
+        <div class="next-step-head">
+          <div class="step-num">2</div>
+          <div class="step-text"><b>Mande pra 3 clientes</b> que costumam marcar com você. A mensagem já vai pronta.</div>
+        </div>
+        <a href="#" target="_blank" rel="noopener" class="step-btn wa" id="shareWaBtn">Mandar no WhatsApp</a>
+        <div class="link-actions">
+          <button type="button" id="copyLinkBtn">Copiar link</button>
+          <a href="#" target="_blank" rel="noopener" id="viewLinkBtn">Ver página</a>
+        </div>
+        <div class="step-hint">Dica: cole o link também na bio do Instagram.</div>
+      </div>
+
+      <div class="next-step">
+        <div class="next-step-head">
+          <div class="step-num">3</div>
+          <div class="step-text"><b>Baixe o app</b> pra ver e confirmar os agendamentos. Entre com o mesmo <b>e-mail e senha</b>.</div>
+        </div>
+        <div class="store-row">
+          <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
+          <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -869,8 +915,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   function showPublished(url, requireConfirmation, alreadyConfigured, mode = 'replace') {
     document.getElementById('bookingLink').textContent = url.replace('https://', '');
     document.getElementById('viewLinkBtn').href = url;
+    document.getElementById('testBookingBtn').href = url;
     document.getElementById('shareWaBtn').href =
-      'https://wa.me/?text=' + encodeURIComponent(`Agora você pode agendar comigo direto por aqui: ${url}`);
+      'https://wa.me/?text=' + encodeURIComponent(`Oi! Agora dá pra marcar seu horário comigo direto por aqui, a qualquer hora, sem precisar esperar eu responder 😊 👉 ${url}`);
     document.getElementById('copyLinkBtn').onclick = async () => {
       const btn = document.getElementById('copyLinkBtn');
       try { await navigator.clipboard.writeText(url); btn.textContent = 'Copiado ✓'; }
