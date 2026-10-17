@@ -889,7 +889,9 @@ transition: opacity 0.6s ease, transform 0.6s ease;
 /* RESPONSIVE */
 @media (max-width: 900px) {
 nav { padding: 0 20px; }
-.nav-links { display: none; }
+.nav-links { gap: 0; }
+.nav-links li:not(:last-child) { display: none; }
+.nav-cta { padding: 8px 14px; font-size: 13px !important; }
 .hero { padding: 90px 24px 60px; }
 .hero-content { grid-template-columns: 1fr; }
 .hero-visual { display: none; }
@@ -1186,7 +1188,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
           <li>Site de agendamento</li>
           <li>Lembretes WhatsApp</li>
         </ul>
-        <a href="/signup" class="price-btn price-btn-outline">Começar grátis</a>
+        <a href="/signup?plan=basic" class="price-btn price-btn-outline">Começar grátis</a>
       </div>
 
   <div class="price-card featured fade-up">
@@ -1201,7 +1203,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <li>Financeiro por colaborador</li>
       <li>Comissão configurável</li>
     </ul>
-    <a href="/signup" class="price-btn price-btn-grad">Começar grátis</a>
+    <a href="/signup?plan=intermediate" class="price-btn price-btn-grad">Começar grátis</a>
   </div>
 
   <div class="price-card fade-up">

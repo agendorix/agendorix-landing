@@ -589,9 +589,14 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <input id="phone" type="tel" placeholder="(11) 98765-4321" autocomplete="tel" inputmode="tel" maxlength="16" required>
       <div class="hint">A gente te chama por lá pra deixar sua agenda pronta com você.</div>
 
-      <label>Escolha seu plano</label>
-      <div class="plan-hint">15 dias grátis em qualquer plano, sem cobrança agora.</div>
-      <div class="plan-list" id="planList"></div>
+      <!-- Escolha de plano escondida no cadastro: menos atrito pra quem chega pelo
+           anúncio. Vai Basic, ou o ?plan= dos botões da seção de preços; a pessoa
+           troca de plano depois, no app. -->
+      <div id="planBlock" hidden>
+        <label>Escolha seu plano</label>
+        <div class="plan-hint">15 dias grátis em qualquer plano, sem cobrança agora.</div>
+        <div class="plan-list" id="planList"></div>
+      </div>
 
       <label for="email">E-mail</label>
       <input id="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
@@ -736,7 +741,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     { key: 'pro', label: 'Pro', priceCents: 7990, features: ['Tudo do Intermediário'] },
   ];
 
-  let selectedPlan = 'basic';
+  const PLAN_KEYS = ['basic', 'intermediate', 'pro'];
+  const planParam = new URLSearchParams(window.location.search).get('plan');
+  let selectedPlan = PLAN_KEYS.includes(planParam) ? planParam : 'basic';
 
   function formatPlanPrice(cents) {
     return `R$${(cents / 100).toFixed(2).replace('.', ',')}/mês`;
