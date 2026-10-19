@@ -358,6 +358,20 @@
   }
   .store-btn:hover { border-color: var(--blue); background: var(--grad-soft); }
 
+  /* Lembrete de login no app: quem cadastra pelo site esquece com qual e-mail entrou */
+  .login-box {
+    margin-top: 12px;
+    background: #eef6ff;
+    border: 1.5px solid #bcd9fb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--navy);
+  }
+  .login-box-title { font-weight: 800; margin-bottom: 4px; }
+  .login-email { font-weight: 800; word-break: break-all; }
+
   #formView.hidden, #successView.hidden, #setupView.hidden, #publishedView.hidden { display: none; }
 
   /* Configuração da agenda (tela de sucesso + ?setup=TOKEN) */
@@ -686,11 +700,16 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <div class="next-step">
         <div class="next-step-head">
           <div class="step-num">3</div>
-          <div class="step-text"><b>Baixe o app</b> pra ver e confirmar os agendamentos. Entre com o mesmo <b>e-mail e senha</b>.</div>
+          <div class="step-text"><b>Baixe o app</b> pra ver e confirmar seus agendamentos.</div>
         </div>
         <div class="store-row">
           <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
           <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+        </div>
+        <div class="login-box">
+          <div class="login-box-title">🔑 Depois de baixar, entre com:</div>
+          <div class="login-email-row">E-mail: <span class="login-email"></span></div>
+          <div>Senha: a mesma que você criou aqui</div>
         </div>
       </div>
     </div>
@@ -715,6 +734,11 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     <div class="store-row">
       <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
       <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+    </div>
+    <div class="login-box">
+      <div class="login-box-title">🔑 Depois de baixar, entre com:</div>
+      <div class="login-email-row">E-mail: <span class="login-email"></span></div>
+      <div>Senha: a mesma que você criou aqui</div>
     </div>
 
     <div class="tutorial-row">
@@ -985,6 +1009,13 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     btn.textContent = 'Publicar minha agenda';
   });
 
+  // Mostra no lembrete de login o e-mail exato do cadastro. Sem ele (quem
+  // chega pelo link do e-mail de lembrete), cai num texto genérico.
+  function fillLoginEmail(email) {
+    document.querySelectorAll('.login-email').forEach(el => { el.textContent = email; });
+  }
+  fillLoginEmail('o que você usou no cadastro');
+
   // Link do e-mail de lembrete: /signup/?setup=TOKEN
   const setupParam = new URLSearchParams(window.location.search).get('setup');
   if (setupParam) {
@@ -1132,6 +1163,8 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         if (typeof turnstile !== 'undefined') turnstile.reset('#turnstileWidget');
         return;
       }
+
+      fillLoginEmail(email);
 
       // Negócio já criado no cadastro → monta a agenda aqui mesmo, sem app.
       // Sem setupToken (falha ao criar o negócio), cai na tela antiga de baixar o app.
