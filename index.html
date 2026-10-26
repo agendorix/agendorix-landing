@@ -886,8 +886,172 @@ transition: opacity 0.6s ease, transform 0.6s ease;
 
 .fade-up.visible { opacity: 1; transform: none; }
 
+/* SEGMENTOS (cartões por tipo de negócio) */
+.biz { padding: 96px 48px; background: var(--off-white); }
+
+.biz-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+}
+
+.biz-card {
+background: var(--white);
+border-radius: 16px;
+padding: 28px 26px;
+border: 1px solid var(--gray);
+display: flex;
+flex-direction: column;
+gap: 14px;
+transition: all 0.2s;
+}
+
+.biz-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 16px 48px rgba(75,142,240,0.1);
+border-color: rgba(75,142,240,0.25);
+}
+
+.biz-tag {
+align-self: flex-start;
+font-size: 12px;
+font-weight: 700;
+color: var(--teal-dark);
+background: rgba(62,207,178,0.12);
+border: 1px solid rgba(62,207,178,0.35);
+padding: 5px 12px;
+border-radius: 100px;
+}
+
+.biz-title { font-size: 20px; font-weight: 800; line-height: 1.25; color: var(--navy); letter-spacing: -0.3px; }
+
+.biz-title, .pet-lead { margin: 0; }
+.biz-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+
+.biz-list li {
+position: relative;
+padding-left: 26px;
+font-size: 14px;
+line-height: 1.55;
+color: var(--text-muted);
+}
+
+.biz-list li::before {
+content: "";
+position: absolute;
+left: 0; top: 3px;
+width: 16px; height: 16px;
+border-radius: 50%;
+background: var(--grad);
+}
+
+.biz-list li::after {
+content: "";
+position: absolute;
+left: 5px; top: 6px;
+width: 4px; height: 7px;
+border: solid #fff;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+
+.biz-more { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--blue); text-decoration: none; }
+.biz-more:hover { color: var(--teal-dark); }
+
+/* PET (destaque com telas reais do app) */
+.pet {
+padding: 96px 48px;
+background: var(--navy);
+position: relative;
+overflow: hidden;
+}
+
+.pet .wrap {
+position: relative;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 64px;
+align-items: center;
+}
+
+.pet h2 { color: white; }
+.pet .sec-tag { color: var(--teal-light); border-color: rgba(62,207,178,0.35); }
+.pet-lead { font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.65); margin-bottom: 28px; }
+
+.pet-lead { margin-bottom: 28px; }
+.pet-steps { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+.pet-steps li { display: flex; gap: 14px; align-items: flex-start; color: rgba(255,255,255,0.85); font-size: 15px; line-height: 1.6; }
+.pet-steps strong { color: white; }
+
+.pet-num {
+flex-shrink: 0;
+width: 30px; height: 30px;
+border-radius: 50%;
+border: 2px solid var(--teal);
+color: var(--teal-light);
+font-weight: 800;
+font-size: 14px;
+display: flex; align-items: center; justify-content: center;
+}
+
+.pet-cta {
+display: inline-block;
+background: var(--grad);
+color: white;
+font-weight: 700;
+font-size: 15px;
+padding: 14px 28px;
+border-radius: 10px;
+text-decoration: none;
+}
+
+.pet-visual { position: relative; display: flex; justify-content: center; padding-bottom: 40px; }
+
+.pet-phone {
+width: 260px;
+background: #0a1428;
+border-radius: 36px;
+padding: 10px;
+box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+}
+
+.pet-phone img { display: block; width: 100%; height: auto; border-radius: 28px; }
+
+.pet-card-shot {
+position: absolute;
+right: 0; bottom: 0;
+width: 300px;
+background: white;
+border-radius: 16px;
+padding: 8px;
+box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+}
+
+.pet-card-shot img { display: block; width: 100%; height: auto; border-radius: 10px; }
+
+.pet-label {
+position: absolute;
+font-size: 12px;
+font-weight: 700;
+color: var(--navy);
+background: var(--teal-light);
+padding: 5px 12px;
+border-radius: 100px;
+white-space: nowrap;
+}
+
+.pet-label.client { top: -12px; left: calc(50% - 130px); }
+.pet-label.pro { top: -12px; left: 16px; }
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
+.biz { padding: 64px 24px; }
+.biz-grid { grid-template-columns: 1fr; }
+.pet { padding: 64px 24px; }
+.pet .wrap { grid-template-columns: 1fr; gap: 40px; }
+.pet-visual { flex-direction: column; align-items: center; gap: 32px; padding-bottom: 0; }
+.pet-card-shot { position: relative; right: auto; bottom: auto; width: 100%; max-width: 340px; }
+.pet-label.client { left: 50%; transform: translateX(-50%); }
 nav { padding: 0 20px; }
 .nav-links { gap: 0; }
 .nav-links li:not(:last-child) { display: none; }
@@ -966,6 +1130,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   </div>
   <ul class="nav-links">
     <li><a href="#features">Funcionalidades</a></li>
+    <li><a href="#segmentos">Para seu negócio</a></li>
     <li><a href="#how">Como funciona</a></li>
     <li><a href="#pricing">Planos</a></li>
     <li><a href="/signup" class="nav-cta">Começar grátis</a></li>
@@ -1108,6 +1273,100 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         <div class="feat-icon">📊</div>
         <div class="feat-title">Relatórios</div>
         <p class="feat-desc">Veja agendamentos, receita e serviços mais populares. Decida com dados reais do negócio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="biz" id="segmentos">
+  <div class="wrap">
+    <div class="sec-header fade-up">
+      <div class="sec-tag">Para o seu negócio</div>
+      <h2>Feito pro jeito que<br>você trabalha</h2>
+      <p class="sec-sub">O mesmo app, ajustado ao dia a dia de cada profissão.</p>
+    </div>
+    <div class="biz-grid">
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Barbearias</span>
+        <h3 class="biz-title">Cadeira cheia, celular no bolso.</h3>
+        <ul class="biz-list">
+          <li>O cliente marca o corte pelo link, a qualquer hora</li>
+          <li>Lembrete no WhatsApp na véspera, pra ninguém esquecer</li>
+          <li>Agenda de cada barbeiro e comissão calculada</li>
+        </ul>
+      </article>
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Manicures e nail designers</span>
+        <h3 class="biz-title">Mão ocupada? A agenda se vira.</h3>
+        <ul class="biz-list">
+          <li>Ela escolhe o serviço e o horário pelo link</li>
+          <li>Lembrete no WhatsApp na véspera</li>
+          <li>Financeiro e estoque de materiais no mesmo app</li>
+        </ul>
+      </article>
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Lash designers</span>
+        <h3 class="biz-title">Procedimento longo, agenda sem encavalar.</h3>
+        <ul class="biz-list">
+          <li>Só aparecem horários em que o procedimento cabe</li>
+          <li>Se quiser, você aprova antes de confirmar</li>
+          <li>Lembrete no WhatsApp na véspera</li>
+        </ul>
+      </article>
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Clínicas de estética</span>
+        <h3 class="biz-title">Cada sessão no lugar, cada cliente lembrada.</h3>
+        <ul class="biz-list">
+          <li>A cliente agenda pelo link, a qualquer hora</li>
+          <li>Lembrete no WhatsApp na véspera</li>
+          <li>Pacotes de sessões, equipe e comissões no app</li>
+        </ul>
+      </article>
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Fisioterapeutas</span>
+        <h3 class="biz-title">Sessões organizadas, paciente lembrado.</h3>
+        <ul class="biz-list">
+          <li>O paciente agenda a sessão pelo link</li>
+          <li>Lembrete no WhatsApp na véspera de cada sessão</li>
+          <li>Pacotes de sessões e financeiro no app</li>
+        </ul>
+      </article>
+      <article class="biz-card fade-up">
+        <span class="biz-tag">Veterinários e pet shops</span>
+        <h3 class="biz-title">O tutor agenda. Você já conhece o pet.</h3>
+        <ul class="biz-list">
+          <li>O tutor marca o horário e informa qual pet vai</li>
+          <li>Raça, peso e cuidados do pet no agendamento</li>
+          <li>Lembrete no WhatsApp na véspera</li>
+        </ul>
+        <a class="biz-more" href="#pet">Veja como funciona →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="pet" id="pet">
+  <div class="how-grid"></div>
+  <div class="wrap">
+    <div class="fade-up">
+      <div class="sec-tag">Veterinários e pet shops</div>
+      <h2>A ficha do pet<br>chega antes dele.</h2>
+      <p class="pet-lead">Quando o tutor agenda, você já sabe quem vem: nome, espécie, raça, peso e os cuidados que ele precisa.</p>
+      <ol class="pet-steps">
+        <li><span class="pet-num">1</span><span><strong>O tutor informa o pet</strong> pelo seu link de agendamento ou cadastra com foto no app Agendorix.</span></li>
+        <li><span class="pet-num">2</span><span><strong>Você vê a ficha no agendamento</strong> e recebe o aviso no WhatsApp já com o nome do pet.</span></li>
+        <li><span class="pet-num">3</span><span><strong>Lembrete automático</strong> pro tutor no WhatsApp, na véspera.</span></li>
+      </ol>
+      <a class="pet-cta" href="/signup">Teste grátis por 15 dias</a>
+    </div>
+    <div class="pet-visual fade-up">
+      <div class="pet-phone">
+        <span class="pet-label client">App do seu cliente</span>
+        <img src="/img/pet-meus-pets.jpg" width="600" height="1220" loading="lazy" alt="Tela Meus Pets do app do cliente: cadastro do Thor com foto, espécie, raça, nascimento, peso e observações">
+      </div>
+      <div class="pet-card-shot">
+        <span class="pet-label pro">Na sua agenda</span>
+        <img src="/img/pet-agendamento.jpg" width="720" height="327" loading="lazy" alt="Agendamento no app do profissional com o card Pet vinculado: Thor, cão, Golden, 6 kg, agitado com barulho">
       </div>
     </div>
   </div>
