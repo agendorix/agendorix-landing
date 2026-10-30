@@ -357,6 +357,14 @@
     transition: border-color 0.15s, background 0.15s;
   }
   .store-btn:hover { border-color: var(--blue); background: var(--grad-soft); }
+  .published-app-cta {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: var(--blue);
+  }
+  .store-row-top { margin-top: 14px; margin-bottom: 20px; }
 
   /* Lembrete de login no app: quem cadastra pelo site esquece com qual e-mail entrou */
   .login-box {
@@ -681,6 +689,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   <div class="card hidden" id="publishedView">
     <div class="success-icon">🎉</div>
     <h1 id="publishedTitle">Sua agenda está no ar!</h1>
+    <!-- Quem publica pelo site fecha a tela achando que acabou e nunca baixa o app: chamada logo abaixo do título -->
+    <div class="published-app-cta">Agora baixe o app nas lojas pra ter controle total da agenda na palma da sua mão.</div>
+    <div class="store-row store-row-top">
+      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
+      <a href="https://apps.apple.com/app/agendorix" target="_blank" class="store-btn">🍎 App Store</a>
+    </div>
     <p class="subtitle">Seus clientes escolhem o serviço e o horário por esse link, e você recebe o aviso no seu WhatsApp e e-mail.</p>
 
     <a href="#" target="_blank" rel="noopener" class="link-box" id="bookingLink"></a>
