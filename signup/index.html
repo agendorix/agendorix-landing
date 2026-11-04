@@ -750,19 +750,20 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <div class="next-step">
         <div class="next-step-head">
           <div class="step-num">2</div>
-          <div class="step-text"><b>Conecte seu WhatsApp</b> no app (leva 1 minuto). Na tela inicial, toque em <b>"Conecte seu WhatsApp"</b>. Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.</div>
+          <div class="step-text" id="waStepText"><b>Conecte seu WhatsApp</b> no app (leva 1 minuto). Na tela inicial, toque em <b>"Conecte seu WhatsApp"</b>. Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.</div>
         </div>
-        <a href="https://youtube.com/shorts/iRGFTPqchFU" target="_blank" rel="noopener" class="support-link">▶ Ver vídeo de 1 minuto: como conectar</a>
+        <a href="https://youtube.com/shorts/iRGFTPqchFU" target="_blank" rel="noopener" class="support-link" id="waVideoLink">▶ Ver vídeo de 1 minuto: como conectar</a>
         <!-- Só no computador: o celular escaneia o QR da tela -->
         <div id="waQrBox" class="hidden">
           <button type="button" class="step-btn wa" id="waQrBtn" style="width:100%;border:0;cursor:pointer;">Conectar agora com QR code</button>
-          <div class="step-hint" id="waQrHint">Ou conecte já daqui: aparece um QR code pra você ler com o celular.</div>
+          <div class="step-hint" id="waQrHint">Aparece um QR code pra você ler com o WhatsApp do celular.</div>
           <div id="waQrArea" class="hidden" style="text-align:center;margin-top:12px;">
             <img id="waQrImg" alt="QR code para conectar o WhatsApp" style="width:260px;max-width:100%;background:#fff;padding:8px;border-radius:10px;border:1.5px solid var(--gray);">
             <div class="step-text" style="margin-top:10px;text-align:left;">No celular: abra o <b>WhatsApp</b> → <b>⋮</b> (no iPhone, <b>Configurações</b>) → <b>Aparelhos conectados</b> → <b>Conectar aparelho</b> e aponte a câmera pro QR.</div>
           </div>
           <div id="waQrDone" class="hidden" style="margin-top:12px;padding:12px;border-radius:10px;background:#e7f8ee;color:#127a3d;font-weight:700;text-align:center;">✅ WhatsApp conectado! A confirmação e o lembrete vão sair pelo seu número.</div>
           <div id="waQrError" class="alert-box hidden"></div>
+          <div class="step-hint" id="waLaterHint">Prefere fazer depois? Dá pra conectar pelo app também.</div>
         </div>
       </div>
 
@@ -1055,6 +1056,10 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     const box = document.getElementById('waQrBox');
     if (!waToken || IS_MOBILE) { box.classList.add('hidden'); return; }
     box.classList.remove('hidden');
+    // No computador o caminho é o QR: texto curto e sem o vídeo do app
+    document.getElementById('waStepText').innerHTML =
+      '<b>Conecte seu WhatsApp agora</b> (leva 30 segundos). Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.';
+    document.getElementById('waVideoLink').style.display = 'none';
     const btn = document.getElementById('waQrBtn');
     btn.onclick = async () => {
       waQrError('');
@@ -1094,6 +1099,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         if (json.status === 'open') {
           document.getElementById('waQrArea').classList.add('hidden');
           document.getElementById('waQrBtn').classList.add('hidden');
+          document.getElementById('waLaterHint').classList.add('hidden');
           document.getElementById('waQrDone').classList.remove('hidden');
           return;
         }
