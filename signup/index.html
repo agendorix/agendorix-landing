@@ -395,6 +395,7 @@
   .support-link { display: inline-block; margin-top: 6px; font-weight: 800; color: #128c4a; text-decoration: underline; }
 
   #formView.hidden, #successView.hidden, #setupView.hidden, #publishedView.hidden { display: none; }
+  #waQrBox.hidden, #waQrBox .hidden { display: none; }
 
   /* Configuração da agenda (tela de sucesso + ?setup=TOKEN) */
   .section-label {
@@ -752,6 +753,17 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
           <div class="step-text"><b>Conecte seu WhatsApp</b> no app (leva 1 minuto). Na tela inicial, toque em <b>"Conecte seu WhatsApp"</b>. Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.</div>
         </div>
         <a href="https://youtube.com/shorts/iRGFTPqchFU" target="_blank" rel="noopener" class="support-link">▶ Ver vídeo de 1 minuto: como conectar</a>
+        <!-- Só no computador: o celular escaneia o QR da tela -->
+        <div id="waQrBox" class="hidden">
+          <button type="button" class="step-btn wa" id="waQrBtn" style="width:100%;border:0;cursor:pointer;">Conectar agora com QR code</button>
+          <div class="step-hint" id="waQrHint">Ou conecte já daqui: aparece um QR code pra você ler com o celular.</div>
+          <div id="waQrArea" class="hidden" style="text-align:center;margin-top:12px;">
+            <img id="waQrImg" alt="QR code para conectar o WhatsApp" style="width:260px;max-width:100%;background:#fff;padding:8px;border-radius:10px;border:1.5px solid var(--gray);">
+            <div class="step-text" style="margin-top:10px;text-align:left;">No celular: abra o <b>WhatsApp</b> → <b>⋮</b> (no iPhone, <b>Configurações</b>) → <b>Aparelhos conectados</b> → <b>Conectar aparelho</b> e aponte a câmera pro QR.</div>
+          </div>
+          <div id="waQrDone" class="hidden" style="margin-top:12px;padding:12px;border-radius:10px;background:#e7f8ee;color:#127a3d;font-weight:700;text-align:center;">✅ WhatsApp conectado! A confirmação e o lembrete vão sair pelo seu número.</div>
+          <div id="waQrError" class="alert-box hidden"></div>
+        </div>
       </div>
 
       <div class="next-step">
@@ -1009,7 +1021,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 
   // Por padrão a tela de link substitui a de montar a agenda no histórico:
   // o código já foi usado, voltar pra ela só daria erro.
-  function showPublished(url, alreadyConfigured, mode = 'replace') {
+  function showPublished(url, alreadyConfigured, mode = 'replace', waToken = null) {
     const linkEl = document.getElementById('bookingLink');
     linkEl.textContent = url.replace('https://', '');
     linkEl.href = url;
@@ -1023,7 +1035,72 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       setTimeout(() => { btn.textContent = 'Copiar link'; }, 2500);
     };
     if (alreadyConfigured) document.getElementById('publishedTitle').textContent = 'Sua agenda já está no ar!';
+    setupWaQr(waToken);
     showView('publishedView', mode);
+  }
+
+  // ---------------------------------------------------------------
+  // Conectar WhatsApp por QR direto da tela final (só no computador).
+  // ---------------------------------------------------------------
+  const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  let waPollTimer = null;
+
+  function waQrError(msg) {
+    const box = document.getElementById('waQrError');
+    box.textContent = msg || '';
+    box.classList.toggle('hidden', !msg);
+  }
+
+  function setupWaQr(waToken) {
+    const box = document.getElementById('waQrBox');
+    if (!waToken || IS_MOBILE) { box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    const btn = document.getElementById('waQrBtn');
+    btn.onclick = async () => {
+      waQrError('');
+      clearTimeout(waPollTimer);
+      btn.disabled = true;
+      btn.textContent = 'Gerando QR code...';
+      try {
+        const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(waToken)}/connect`, { method: 'POST' });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.qrCode) throw new Error(json.message || 'Não foi possível gerar o QR agora. Tente de novo em instantes.');
+        document.getElementById('waQrImg').src = 'data:image/png;base64,' + json.qrCode;
+        document.getElementById('waQrArea').classList.remove('hidden');
+        document.getElementById('waQrHint').classList.add('hidden');
+        btn.textContent = 'Gerar outro QR code';
+        btn.disabled = false;
+        pollWa(waToken, Date.now(), Date.now());
+      } catch (e) {
+        waQrError(e.message || 'Não foi possível conectar. Verifique sua internet e tente de novo.');
+        btn.textContent = 'Conectar agora com QR code';
+        btn.disabled = false;
+      }
+    };
+  }
+
+  // Confere a cada 3 s; troca o QR a cada ~20 s (o WhatsApp renova o código); para em 4 min.
+  function pollWa(waToken, startedAt, lastQrAt) {
+    if (Date.now() - startedAt > 4 * 60 * 1000) {
+      document.getElementById('waQrArea').classList.add('hidden');
+      waQrError('O QR code expirou. Clique em "Gerar outro QR code" pra tentar de novo.');
+      return;
+    }
+    waPollTimer = setTimeout(async () => {
+      const wantQr = Date.now() - lastQrAt > 20000;
+      try {
+        const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(waToken)}/status${wantQr ? '?withQr=1' : ''}`);
+        const json = await res.json().catch(() => ({}));
+        if (json.status === 'open') {
+          document.getElementById('waQrArea').classList.add('hidden');
+          document.getElementById('waQrBtn').classList.add('hidden');
+          document.getElementById('waQrDone').classList.remove('hidden');
+          return;
+        }
+        if (json.qrCode) { document.getElementById('waQrImg').src = 'data:image/png;base64,' + json.qrCode; lastQrAt = Date.now(); }
+      } catch (e) { /* tenta de novo no próximo ciclo */ }
+      pollWa(waToken, startedAt, lastQrAt);
+    }, 3000);
   }
 
   document.getElementById('addSvcBtn').addEventListener('click', () => addServiceRow('', 60));
@@ -1059,9 +1136,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         body: JSON.stringify({ services, days: [...selectedDays], start, end }),
       });
       const json = await res.json().catch(() => ({}));
-      if (res.ok) { showPublished(json.url, false); return; }
+      if (res.ok) { showPublished(json.url, false, 'replace', json.waToken); return; }
       if (json.error === 'already_configured' && json.slug) {
-        showPublished(`https://book.agendorix.com.br/${json.slug}`, true); return;
+        showPublished(`https://book.agendorix.com.br/${json.slug}`, true, 'replace', json.waToken); return;
       }
       if (json.error === 'invalid_or_expired') {
         setupError('Esse link expirou ou já foi usado. Entre no app do Agendorix com seu e-mail e senha pra configurar sua agenda.');
