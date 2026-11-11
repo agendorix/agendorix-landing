@@ -365,6 +365,17 @@
     color: var(--blue);
   }
   .store-row-top { margin-top: 14px; margin-bottom: 20px; }
+  .app-warning {
+    margin-top: 12px;
+    background: #fff4e5;
+    border: 2px solid #f59e0b;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: left;
+  }
+  .app-warning-title { font-size: 20px; font-weight: 800; line-height: 1.25; color: #b45309; margin-bottom: 8px; }
+  .app-warning-text { font-size: 15px; line-height: 1.5; color: #78350f; }
+  .app-warning-login { font-size: 13.5px; line-height: 1.5; color: #78350f; text-align: center; margin: -10px 0 20px; }
 
   /* Lembrete de login no app: quem cadastra pelo site esquece com qual e-mail entrou */
   .login-box {
@@ -691,11 +702,15 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     <div class="success-icon">🎉</div>
     <h1 id="publishedTitle">Sua agenda está no ar!</h1>
     <!-- Quem publica pelo site fecha a tela achando que acabou e nunca baixa o app: chamada logo abaixo do título -->
-    <div class="published-app-cta">Agora baixe o app nas lojas pra ter controle total da agenda na palma da sua mão.</div>
+    <div class="app-warning">
+      <div class="app-warning-title">⚠️ Atenção: sem o app você não vê seus agendamentos</div>
+      <div class="app-warning-text">Seus clientes já podem marcar pelo link, mas <b>é só pelo app</b> que você vê sua agenda e confirma, remarca ou cancela os horários. <b>Baixe agora no seu celular:</b></div>
+    </div>
     <div class="store-row store-row-top">
       <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
       <a href="https://apps.apple.com/br/app/agendorix/id6770764759" target="_blank" class="store-btn">🍎 App Store</a>
     </div>
+    <div class="app-warning-login">🔑 E-mail: <span class="login-email"></span><br>Senha: a mesma que você criou aqui</div>
     <p class="subtitle">Seus clientes escolhem o serviço e o horário por esse link, e você recebe o aviso no seu WhatsApp e e-mail.</p>
 
     <a href="#" target="_blank" rel="noopener" class="link-box" id="bookingLink"></a>
