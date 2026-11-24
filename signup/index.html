@@ -302,6 +302,11 @@
     border-top: 1px solid var(--gray);
     padding-top: 20px;
   }
+  .trust-line { font-size: 12.5px; color: #5a6a8a; text-align: center; margin-top: 10px; }
+  .setup-offer { margin-top: 18px; border: 1px dashed rgba(75,142,240,0.55); background: #f5f9ff; border-radius: 12px; padding: 14px 16px; text-align: left; }
+  .setup-offer-title { font-size: 15px; font-weight: 800; color: #0d1b3e; margin-bottom: 4px; }
+  .setup-offer-text { font-size: 13.5px; line-height: 1.5; color: #42526e; margin-bottom: 10px; }
+  .setup-offer-btn { display: inline-block; background: #25D366; color: white; font-weight: 700; font-size: 14px; padding: 10px 16px; border-radius: 9px; text-decoration: none; }
   .tutorial-label { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
   #tutorialList { display: flex; flex-direction: column; gap: 10px; }
   .tutorial-card {
@@ -667,6 +672,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <div class="error-box" id="errorBox"></div>
 
       <button type="submit" class="btn-submit" id="submitBtn">Criar conta grátis</button>
+      <div class="trust-line">Sem fidelidade · cancele quando quiser · 15 dias grátis sem cartão</div>
     </form>
 
     <div class="login-hint">
@@ -698,6 +704,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     <div class="error-box" id="setupError"></div>
 
     <button type="button" class="btn-submit" id="publishBtn">Publicar minha agenda</button>
+    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
+    <div class="setup-offer">
+      <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
+      <div class="setup-offer-text">Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</div>
+      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
+    </div>
     <div class="skip-row"><button type="button" id="skipSetupBtn">Prefiro configurar depois no app</button></div>
   </div>
 
@@ -723,6 +735,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
 
     <a href="#" target="_blank" rel="noopener" class="link-box" id="bookingLink"></a>
     <div class="link-box-hint">Toque no link pra ver sua página. Ela abre em outra aba, e esta tela continua aqui.</div>
+    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
+    <div class="setup-offer">
+      <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
+      <div class="setup-offer-text">Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</div>
+      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
+    </div>
 
     <div style="margin-top:18px;">
       <div class="tutorial-label">🎬 Assista antes (1 minuto cada):</div>
@@ -835,6 +853,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <div class="login-email-row">E-mail: <span class="login-email"></span></div>
       <div>Senha: a mesma que você criou aqui</div>
     </div>
+    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
+    <div class="setup-offer">
+      <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
+      <div class="setup-offer-text">Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</div>
+      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
+    </div>
     <div class="support-box">
       <div class="support-box-title">💬 Salve nosso WhatsApp: (19) 97121-7637</div>
       <div>Se precisar de ajuda pra configurar ou tiver alguma dúvida, é só chamar. Atendimento de pessoa, não de robô 🙂</div>
@@ -940,6 +964,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   const DURATIONS = [15, 20, 30, 40, 45, 50, 60, 75, 90, 120, 150, 180, 240];
   const MAX_SERVICES = 8;
   let setupToken = null;
+  // Código do clique em "a gente configura pra você" (vem do backend; sem ele o botão só abre o WhatsApp)
+  let helpToken = null;
+  document.querySelectorAll('.js-setup-offer').forEach(a => a.addEventListener('click', () => {
+    if (!helpToken) return;
+    fetch(`${BACKEND_URL}/public/setup-request/${encodeURIComponent(helpToken)}`, { method: 'POST', keepalive: true }).catch(() => {});
+  }));
   let selectedDays = new Set([1, 2, 3, 4, 5, 6]);
 
   // Cada tela vira uma entrada no histórico, pra seta de voltar do navegador
@@ -1166,6 +1196,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         body: JSON.stringify({ services, days: [...selectedDays], start, end }),
       });
       const json = await res.json().catch(() => ({}));
+      if (json.helpToken) helpToken = json.helpToken;
       if (res.ok) { showPublished(json.url, false, 'replace', json.waToken); return; }
       if (json.error === 'already_configured' && json.slug) {
         showPublished(`https://book.agendorix.com.br/${json.slug}`, true, 'replace', json.waToken); return;
@@ -1198,6 +1229,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       .then(res => res.json().then(json => ({ ok: res.ok, json })))
       .then(({ ok, json }) => {
         if (!ok) throw new Error(json.message || 'invalid');
+        if (json.helpToken) helpToken = json.helpToken;
         if (json.alreadyConfigured) {
           showPublished(`https://book.agendorix.com.br/${json.slug}`, true);
         } else {
@@ -1338,6 +1370,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       }
 
       fillLoginEmail(email);
+      if (json.helpToken) helpToken = json.helpToken;
 
       // Negócio já criado no cadastro → monta a agenda aqui mesmo, sem app.
       // Sem setupToken (falha ao criar o negócio), cai na tela antiga de baixar o app.

@@ -798,6 +798,24 @@ font-size: 15px;
 color: white;
 }
 
+.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1080px; margin: 0 auto; }
+.test-card { background: #f7f9fc; border: 1px solid rgba(15,30,60,0.08); border-radius: 16px; padding: 28px 24px; text-align: center; }
+.test-card[hidden] { display: none; }
+.test-card .test-stars { font-size: 16px; margin-bottom: 14px; }
+.test-card .test-quote { font-size: 17px; margin-bottom: 20px; }
+.test-photo { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+
+/* SEM FIDELIDADE + OFERTA "A GENTE CONFIGURA" */
+.trust-line { font-size: 13px; color: var(--text-muted); margin-top: 16px; }
+.trust-line-dark { color: rgba(255,255,255,0.55); }
+.setup-offer-link { display: inline-block; margin-top: 10px; font-size: 14px; font-weight: 600; color: #7fb2ff; text-decoration: none; }
+.setup-offer-link:hover { text-decoration: underline; }
+.setup-offer { max-width: 760px; margin: 28px auto 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: white; border: 1px dashed rgba(75,142,240,0.5); border-radius: 14px; padding: 20px 24px; }
+.setup-offer-title { font-weight: 800; color: var(--navy); font-size: 16px; margin-bottom: 4px; }
+.setup-offer p { font-size: 14px; color: var(--text-muted); margin: 0; }
+.setup-offer-btn { display: inline-block; background: #25D366; color: white; font-weight: 700; font-size: 14px; padding: 12px 20px; border-radius: 10px; text-decoration: none; white-space: nowrap; }
+.setup-offer-btn:hover { filter: brightness(0.95); }
+
 .test-name { font-size: 15px; font-weight: 700; color: var(--navy); }
 .test-role { font-size: 13px; color: var(--text-muted); }
 
@@ -1152,11 +1170,13 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         Agendamento Online
       </div>
       <h1>Sua agenda no<br><span class="grad-text">digital</span>, seus<br>clientes felizes.</h1>
-      <p class="hero-sub">Crie sua página de agendamento em minutos. Seus clientes agendam pelo celular, 24 horas por dia, sem precisar te ligar.</p>
+      <p class="hero-sub">Coloque seu link de agendamento no Instagram, no Google e no WhatsApp. Suas clientes marcam sozinhas, 24h por dia, até de madrugada, sem precisar te chamar.</p>
       <div class="hero-actions">
         <a href="/signup" class="btn-primary">Criar minha página grátis →</a>
         <a href="https://book.agendorix.com.br/fisioterapia-essencial-dznx" target="_blank" class="btn-ghost">Ver exemplo ↗</a>
       </div>
+      <p class="trust-line trust-line-dark">Sem fidelidade · cancele quando quiser · 15 dias grátis sem cartão</p>
+      <a class="setup-offer-link js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Sem tempo de configurar? A gente deixa sua agenda pronta pra você →</a>
       <div class="hero-stats">
         <div>
           <div class="stat-num">5 min</div>
@@ -1252,12 +1272,12 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <div class="feat-card fade-up">
         <div class="feat-icon">🔗</div>
         <div class="feat-title">Página própria</div>
-        <p class="feat-desc">Sua página em <strong>book.agendorix.com.br/seu-negocio</strong>. Compartilhe no Instagram, WhatsApp ou onde quiser.</p>
+        <p class="feat-desc">Sua página em <strong>book.agendorix.com.br/seu-negocio</strong>. Coloque o link na bio do Instagram, no seu perfil do Google e no WhatsApp.</p>
       </div>
       <div class="feat-card fade-up">
         <div class="feat-icon">📅</div>
-        <div class="feat-title">Agenda inteligente</div>
-        <p class="feat-desc">Configure horários disponíveis, bloqueios e folgas. Sem conflito de agendamentos, nunca.</p>
+        <div class="feat-title">Clientes marcam sozinhas</div>
+        <p class="feat-desc">Elas escolhem o serviço e o horário livre, 24h por dia, até de madrugada. Você só configura horários, bloqueios e folgas, sem conflito de agendamentos.</p>
       </div>
       <div class="feat-card fade-up">
         <div class="feat-icon">📧</div>
@@ -1495,39 +1515,84 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     <a href="https://wa.me/5519971217637?text=Ol%C3%A1%2C+quero+criar+minha+p%C3%A1gina+de+agendamento+no+Agendorix%21" target="_blank" class="price-btn price-btn-outline">Falar com vendas</a>
   </div>
 </div>
-<p style="text-align:center; margin-top:28px; font-size:13px; color:var(--text-muted);">
-  🎁 Todos os planos incluem <strong>15 dias grátis</strong>, sem precisar de cartão de crédito.
+<p class="trust-line" style="text-align:center; margin-top:28px;">
+  🎁 <strong>Sem fidelidade</strong> · cancele quando quiser · <strong>15 dias grátis</strong> sem cartão
 </p>
+<div class="setup-offer fade-up">
+  <div class="setup-offer-text">
+    <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
+    <p>Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</p>
+  </div>
+  <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
+</div>
 
   </div>
 </section>
 
-<!-- Depoimentos: ESCONDIDOS até a profissional autorizar (Thaís / Janaina).
-     Pra publicar: trocar o texto, nome, ramo e cidade e apagar o atributo hidden do card (e da section). -->
-<section class="testimonial" hidden>
-  <div class="test-inner fade-up" hidden>
-    <div class="test-stars">⭐⭐⭐⭐⭐</div>
-    <p class="test-quote">"TEXTO DO DEPOIMENTO 1"</p>
-    <div class="test-author">
-      <div class="test-avatar">XX</div>
-      <div>
-        <div class="test-name">Nome do negócio 1</div>
-        <div class="test-role">Ramo · Cidade, UF</div>
-      </div>
+<!-- ===================== DEPOIMENTOS =====================
+     Todos ESCONDIDOS até a profissional autorizar.
+     Pra publicar UM depoimento: troque nome/negócio/cidade/frase dele e APAGUE o "hidden" do <article> dele.
+     A seção aparece sozinha quando pelo menos 1 cartão estiver sem "hidden".
+     Foto (opcional): coloque o arquivo em /img/depoimentos/ e troque o <div class="test-avatar">XX</div>
+     por <img class="test-photo" src="/img/depoimentos/nome.jpg" alt="Nome">. Sem foto, ficam as iniciais.
+     ========================================================= -->
+<section class="testimonial" id="depoimentos" hidden>
+  <div class="wrap">
+    <div class="sec-header fade-up">
+      <div class="sec-tag">Quem usa</div>
+      <h2>Profissionais que já<br>agendam pelo link</h2>
     </div>
-  </div>
-  <div class="test-inner fade-up" hidden style="margin-top:48px;">
-    <div class="test-stars">⭐⭐⭐⭐⭐</div>
-    <p class="test-quote">"TEXTO DO DEPOIMENTO 2"</p>
-    <div class="test-author">
-      <div class="test-avatar">XX</div>
-      <div>
-        <div class="test-name">Nome do negócio 2</div>
-        <div class="test-role">Ramo · Cidade, UF</div>
-      </div>
+    <div class="test-grid">
+
+      <!-- DEPOIMENTO 1 -->
+      <article class="test-card fade-up" hidden>
+        <div class="test-stars">⭐⭐⭐⭐⭐</div>
+        <p class="test-quote">"FRASE CURTA DO DEPOIMENTO 1"</p>
+        <div class="test-author">
+          <div class="test-avatar">XX</div>
+          <div>
+            <div class="test-name">Nome da pessoa 1</div>
+            <div class="test-role">Nome do negócio 1 · Cidade, UF</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- DEPOIMENTO 2 -->
+      <article class="test-card fade-up" hidden>
+        <div class="test-stars">⭐⭐⭐⭐⭐</div>
+        <p class="test-quote">"FRASE CURTA DO DEPOIMENTO 2"</p>
+        <div class="test-author">
+          <div class="test-avatar">XX</div>
+          <div>
+            <div class="test-name">Nome da pessoa 2</div>
+            <div class="test-role">Nome do negócio 2 · Cidade, UF</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- DEPOIMENTO 3 -->
+      <article class="test-card fade-up" hidden>
+        <div class="test-stars">⭐⭐⭐⭐⭐</div>
+        <p class="test-quote">"FRASE CURTA DO DEPOIMENTO 3"</p>
+        <div class="test-author">
+          <div class="test-avatar">XX</div>
+          <div>
+            <div class="test-name">Nome da pessoa 3</div>
+            <div class="test-role">Nome do negócio 3 · Cidade, UF</div>
+          </div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
+<script>
+  // Mostra a seção de depoimentos só se algum cartão estiver liberado (sem "hidden").
+  (function () {
+    var sec = document.getElementById('depoimentos');
+    if (sec && sec.querySelector('.test-card:not([hidden])')) sec.hidden = false;
+  })();
+</script>
 
 <section class="cta-final">
   <div class="cta-inner fade-up">
@@ -1538,6 +1603,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <a href="/signup" class="btn-primary">Criar minha página grátis →</a>
       <a href="https://book.agendorix.com.br/fisioterapia-essencial-dznx" target="_blank" class="btn-ghost">Ver exemplo ↗</a>
     </div>
+    <p class="trust-line trust-line-dark" style="margin-top:20px;">Sem fidelidade · cancele quando quiser · 15 dias grátis sem cartão</p>
   </div>
 </section>
 
