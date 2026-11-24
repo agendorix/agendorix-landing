@@ -5,33 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baixar o app Agendorix</title>
 <meta name="robots" content="noindex">
-<script>
-  // QR code da tela final do /signup aponta pra cá: manda cada celular pra sua loja.
-  (function () {
-    var ua = navigator.userAgent || '';
-    if (/Android/i.test(ua)) {
-      // Abre direto o app da Play Store; sem ele, o Chrome cai na versão web (browser_fallback_url).
-      location.replace('intent://details?id=com.agendorix.app#Intent;scheme=market;package=com.android.vending;' +
-        'S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=com.agendorix.app') + ';end');
-    } else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) {
-      location.replace('https://apps.apple.com/br/app/agendorix/id6770764759');
-    }
-  })();
-</script>
 <style>
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7fb; color: #0f172a; display: flex; min-height: 100vh; align-items: center; justify-content: center; }
   .card { background: #fff; border-radius: 18px; padding: 32px 24px; max-width: 360px; width: calc(100% - 32px); text-align: center; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); }
   h1 { font-size: 22px; margin: 0 0 8px; }
   p { font-size: 15px; color: #475569; margin: 0 0 20px; line-height: 1.5; }
-  a { display: block; padding: 14px; border-radius: 12px; background: #0f172a; color: #fff; text-decoration: none; font-weight: 700; margin-top: 10px; }
+  .btn { display: block; padding: 14px; border-radius: 12px; background: #0f172a; color: #fff; text-decoration: none; font-weight: 700; margin-top: 10px; }
+  .btn-big { padding: 20px; font-size: 19px; background: #01875f; }
+  .web-link { display: inline-block; margin-top: 16px; font-size: 14px; color: #475569; }
+  .hidden { display: none; }
 </style>
 </head>
 <body>
-  <div class="card">
+  <!-- QR code da tela final do /signup aponta pra cá: manda cada celular pra sua loja. -->
+  <div class="card hidden" id="androidView">
+    <h1>Baixe o app Agendorix</h1>
+    <p>Toque no botão para abrir a Play Store:</p>
+    <a class="btn btn-big" id="playIntentBtn" href="https://play.google.com/store/apps/details?id=com.agendorix.app">▶ Abrir na Play Store</a>
+    <a class="web-link" href="https://play.google.com/store/apps/details?id=com.agendorix.app">Abrir no navegador</a>
+  </div>
+
+  <div class="card" id="defaultView">
     <h1>Baixe o app Agendorix</h1>
     <p>Escolha a loja do seu celular:</p>
-    <a href="https://play.google.com/store/apps/details?id=com.agendorix.app">▶ Google Play (Android)</a>
-    <a href="https://apps.apple.com/br/app/agendorix/id6770764759">🍎 App Store (iPhone)</a>
+    <a class="btn" href="https://play.google.com/store/apps/details?id=com.agendorix.app">▶ Google Play (Android)</a>
+    <a class="btn" href="https://apps.apple.com/br/app/agendorix/id6770764759">🍎 App Store (iPhone)</a>
   </div>
+
+<script>
+  (function () {
+    var ua = navigator.userAgent || '';
+    var PLAY_WEB = 'https://play.google.com/store/apps/details?id=com.agendorix.app';
+    var PLAY_INTENT = 'intent://details?id=com.agendorix.app#Intent;scheme=market;package=com.android.vending;';
+
+    if (/Android/i.test(ua)) {
+      document.getElementById('defaultView').classList.add('hidden');
+      document.getElementById('androidView').classList.remove('hidden');
+      // No toque o Chrome deixa abrir o app da Play Store; sem ele, cai na versão web.
+      document.getElementById('playIntentBtn').href =
+        PLAY_INTENT + 'S.browser_fallback_url=' + encodeURIComponent(PLAY_WEB) + ';end';
+      // Tentativa automática SEM fallback: se o Chrome bloquear (sem toque), a página fica
+      // aqui com o botão em vez de ir pra versão web da Play Store.
+      location.replace(PLAY_INTENT + 'end');
+    } else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) {
+      location.replace('https://apps.apple.com/br/app/agendorix/id6770764759');
+    }
+  })();
+</script>
 </body>
 </html>
