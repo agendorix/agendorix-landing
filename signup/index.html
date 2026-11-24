@@ -367,15 +367,18 @@
   .store-row-top { margin-top: 14px; margin-bottom: 20px; }
   .app-warning {
     margin-top: 12px;
-    background: #fff4e5;
-    border: 2px solid #f59e0b;
+    background: #eef5ff;
+    border: 2px solid #93c5fd;
     border-radius: 14px;
     padding: 16px;
     text-align: left;
   }
-  .app-warning-title { font-size: 20px; font-weight: 800; line-height: 1.25; color: #b45309; margin-bottom: 8px; }
-  .app-warning-text { font-size: 15px; line-height: 1.5; color: #78350f; }
-  .app-warning-login { font-size: 13.5px; line-height: 1.5; color: #78350f; text-align: center; margin: -10px 0 20px; }
+  .app-warning-title { font-size: 20px; font-weight: 800; line-height: 1.25; color: #1e40af; margin-bottom: 8px; }
+  .app-warning-text { font-size: 15px; line-height: 1.5; color: #1e3a8a; }
+  .app-warning-login { font-size: 13.5px; line-height: 1.5; color: #1e3a8a; text-align: center; margin: -10px 0 20px; }
+  .app-qr { text-align: center; margin-top: 14px; }
+  .app-qr img { width: 180px; height: 180px; background: #fff; padding: 8px; border-radius: 12px; border: 1.5px solid #dbe3ee; }
+  .app-qr-text { font-size: 14px; color: #1e3a8a; margin-top: 6px; font-weight: 600; }
 
   /* Lembrete de login no app: quem cadastra pelo site esquece com qual e-mail entrou */
   .login-box {
@@ -406,7 +409,7 @@
   .support-link { display: inline-block; margin-top: 6px; font-weight: 800; color: #128c4a; text-decoration: underline; }
 
   #formView.hidden, #successView.hidden, #setupView.hidden, #publishedView.hidden { display: none; }
-  #waQrBox.hidden, #waQrBox .hidden { display: none; }
+  #waQrBox.hidden, #waQrBox .hidden, #appQrBox.hidden { display: none; }
 
   /* Configuração da agenda (tela de sucesso + ?setup=TOKEN) */
   .section-label {
@@ -703,8 +706,13 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     <h1 id="publishedTitle">Sua agenda está no ar!</h1>
     <!-- Quem publica pelo site fecha a tela achando que acabou e nunca baixa o app: chamada logo abaixo do título -->
     <div class="app-warning">
-      <div class="app-warning-title">⚠️ Atenção: sem o app você não vê seus agendamentos</div>
-      <div class="app-warning-text">Seus clientes já podem marcar pelo link, mas <b>é só pelo app</b> que você vê sua agenda e confirma, remarca ou cancela os horários. <b>Baixe agora no seu celular:</b></div>
+      <div class="app-warning-title">📱 Gerencie tudo pelo app no iPhone e Android</div>
+      <div class="app-warning-text">Seus clientes já podem marcar pelo link. No app você vê sua agenda e confirma, remarca ou cancela os horários. <b>Baixe agora no seu celular:</b></div>
+    </div>
+    <!-- Só no computador: QR pra baixar o app apontando a câmera do celular (/app manda cada celular pra sua loja) -->
+    <div class="app-qr hidden" id="appQrBox">
+      <img src="/img/qr-baixar-app.svg" alt="QR code para baixar o app Agendorix" width="180" height="180">
+      <div class="app-qr-text">Aponte a câmera do celular para o QR code e baixe o app.</div>
     </div>
     <div class="store-row store-row-top">
       <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
@@ -1059,6 +1067,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   // Conectar WhatsApp por QR direto da tela final (só no computador).
   // ---------------------------------------------------------------
   const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if (!IS_MOBILE) document.getElementById('appQrBox').classList.remove('hidden');
   let waPollTimer = null;
 
   function waQrError(msg) {
