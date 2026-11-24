@@ -10,7 +10,9 @@
   (function () {
     var ua = navigator.userAgent || '';
     if (/Android/i.test(ua)) {
-      location.replace('https://play.google.com/store/apps/details?id=com.agendorix.app');
+      // Abre direto o app da Play Store; sem ele, o Chrome cai na versão web (browser_fallback_url).
+      location.replace('intent://details?id=com.agendorix.app#Intent;scheme=market;package=com.android.vending;' +
+        'S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=com.agendorix.app') + ';end');
     } else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) {
       location.replace('https://apps.apple.com/br/app/agendorix/id6770764759');
     }
