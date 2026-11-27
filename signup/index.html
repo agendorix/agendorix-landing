@@ -413,8 +413,62 @@
   .support-box-title { font-weight: 800; margin-bottom: 4px; }
   .support-link { display: inline-block; margin-top: 6px; font-weight: 800; color: #128c4a; text-decoration: underline; }
 
-  #formView.hidden, #successView.hidden, #setupView.hidden, #publishedView.hidden { display: none; }
-  #waQrBox.hidden, #waQrBox .hidden, #appQrBox.hidden { display: none; }
+  .card.hidden, main .hidden { display: none; }
+
+  /* Cadastro em etapas (passos 1–5) */
+  .wiz-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .wiz-top .card-eyebrow { margin-bottom: 0; }
+  .wiz-count { font-size: 12.5px; font-weight: 700; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
+  .wiz-back { background: none; border: none; font-family: inherit; font-size: 14px; font-weight: 700; color: var(--navy); cursor: pointer; padding: 10px 0; min-height: 44px; }
+  .wiz-bar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-bottom: 22px; }
+  .wiz-bar i { display: block; height: 6px; border-radius: 3px; background: var(--gray); }
+  .wiz-bar i.on { background: var(--teal); }
+  .offer-link { font-size: 13.5px; font-weight: 700; color: var(--blue); }
+  .btn-full { width: 100%; border: 0; cursor: pointer; font-family: inherit; }
+  .step-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .break-box { margin-top: 18px; border: 1.5px solid var(--teal); border-radius: 14px; padding: 14px; background: #f6fdfb; }
+  .break-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; cursor: pointer; }
+  .break-toggle b { display: block; font-size: 14.5px; color: var(--navy); }
+  .break-toggle small { display: block; font-size: 12.5px; font-weight: 500; color: var(--text-muted); margin-top: 2px; }
+  .break-toggle input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--teal); }
+  #breakRow { margin-top: 12px; }
+  .break-box.off #breakRow { display: none; }
+  .break-box.off { border-color: var(--gray); background: var(--off-white); }
+
+  .todo-row { display: flex; gap: 12px; align-items: flex-start; background: var(--off-white); border: 1.5px solid var(--gray); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+
+  .code-card { margin-top: 16px; text-align: center; background: var(--off-white); border: 1.5px solid var(--gray); border-radius: 14px; padding: 16px; }
+  .code-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+  .code-value { font-size: 32px; font-weight: 800; letter-spacing: 0.12em; color: var(--navy); margin: 6px 0 10px; font-variant-numeric: tabular-nums; }
+  .code-copy { background: var(--white); border: 1.5px solid var(--gray); border-radius: 10px; padding: 10px 16px; min-height: 44px; font-family: inherit; font-size: 13.5px; font-weight: 700; color: var(--navy); cursor: pointer; }
+  .code-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; text-align: center; }
+  .wa-steps { margin: 16px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.55; color: var(--text); text-align: left; }
+  .wa-steps li { margin-bottom: 6px; }
+  #waQrArea { text-align: center; margin-top: 14px; }
+  #waQrImg { width: 260px; max-width: 100%; background: #fff; padding: 8px; border-radius: 10px; border: 1.5px solid var(--gray); }
+  .done-box { margin-top: 16px; padding: 14px; border-radius: 12px; background: #e7f8ee; color: #127a3d; font-weight: 700; text-align: center; font-size: 14.5px; }
+
+  .wait-box { margin-top: 18px; display: flex; align-items: center; gap: 14px; background: #eef5ff; border: 1.5px dashed #93c5fd; border-radius: 14px; padding: 16px; }
+  .wait-box b { display: block; font-size: 14.5px; color: var(--navy); }
+  .wait-box small { display: block; font-size: 12.5px; color: #3d5070; margin-top: 2px; }
+  .spinner { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; border: 3px solid #bcd9fb; border-top-color: var(--blue); animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .checklist { border: 1.5px solid var(--gray); border-radius: 14px; padding: 4px 14px; }
+  .check-row { display: flex; align-items: center; gap: 12px; min-height: 50px; border-bottom: 1px solid var(--gray); }
+  .check-row:last-child { border-bottom: 0; }
+  .check { width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; border: 2px solid #c3cfe0; box-sizing: border-box; }
+  .check-row.ok .check { border: 0; background: var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 14px no-repeat; }
+  .check-label { flex: 1; font-size: 14.5px; color: var(--text-muted); }
+  .check-row.ok .check-label { color: var(--navy); }
+  .check-action { background: none; border: none; font-family: inherit; font-size: 13.5px; font-weight: 800; color: var(--blue); cursor: pointer; min-height: 44px; padding: 0 4px; }
+  .check-row.ok .check-action { display: none; }
+
+  .share-box { margin-top: 18px; background: var(--navy); color: #fff; border-radius: 16px; padding: 16px; }
+  .share-label { font-size: 13px; font-weight: 800; color: var(--teal-light); }
+  .share-text { font-size: 14px; line-height: 1.5; color: #dbe5f5; margin: 8px 0 0; word-break: break-word; }
+  .share-box .link-actions a, .share-box .link-actions button { background: transparent; color: #fff; border-color: #2c4772; }
 
   /* Configuração da agenda (tela de sucesso + ?setup=TOKEN) */
   .section-label {
@@ -680,15 +734,34 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <div class="card hidden" id="setupView">
-    <div class="card-eyebrow"><div class="eyebrow-dot"></div>Conta criada ✅</div>
-    <h1>Agora monte sua agenda</h1>
-    <p class="subtitle" id="setupSubtitle">Leva 1 minuto. No fim você recebe o link pra mandar pros seus clientes agendarem sozinhos.</p>
+  <!-- ============ Passo 1: serviços ============ -->
+  <div class="card hidden" id="svcView">
+    <div class="wiz-top">
+      <div class="card-eyebrow" id="svcEyebrow"><div class="eyebrow-dot"></div>Conta criada ✅</div>
+      <span class="wiz-count">Passo 1 de 5</span>
+    </div>
+    <div class="wiz-bar" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <h1>Quais serviços você faz?</h1>
+    <p class="subtitle" id="setupSubtitle">Já deixamos alguns prontos pro seu ramo. Ajuste o que quiser. Preço em branco = a combinar.</p>
 
-    <div class="section-label">Seus serviços</div>
-    <div class="section-hint">Ajuste o que quiser. Deixe o preço em branco se for a combinar.</div>
     <div class="svc-list" id="svcList"></div>
     <button type="button" class="btn-link" id="addSvcBtn">+ Adicionar serviço</button>
+
+    <div class="error-box" id="svcError"></div>
+    <button type="button" class="btn-submit" id="svcNextBtn">Continuar</button>
+    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
+    <div class="skip-row"><a class="offer-link js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Sem tempo? A Agendorix configura pra você</a></div>
+  </div>
+
+  <!-- ============ Passo 2: dias, horário e intervalo ============ -->
+  <div class="card hidden" id="hoursView">
+    <div class="wiz-top">
+      <button type="button" class="wiz-back" id="hoursBackBtn">← Voltar</button>
+      <span class="wiz-count">Passo 2 de 5</span>
+    </div>
+    <div class="wiz-bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+    <h1>Quando você atende?</h1>
+    <p class="subtitle">Seus clientes só vão ver horários livres dentro disso.</p>
 
     <div class="section-label">Dias de atendimento</div>
     <div class="day-row" id="dayRow"></div>
@@ -699,132 +772,165 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       <span class="sep">até</span>
       <select id="endTime" aria-label="Fim"></select>
     </div>
-    <div class="hint">Depois dá pra ajustar horário de almoço, folgas e horários diferentes por dia no app.</div>
+
+    <div class="break-box">
+      <label class="break-toggle" for="breakOn">
+        <span><b>Intervalo de almoço</b><small>Ninguém marca nesse horário</small></span>
+        <input type="checkbox" id="breakOn" checked>
+      </label>
+      <div class="hours-row" id="breakRow">
+        <select id="breakStart" aria-label="Início do intervalo"></select>
+        <span class="sep">até</span>
+        <select id="breakEnd" aria-label="Fim do intervalo"></select>
+      </div>
+    </div>
+    <div class="hint">Horários diferentes por dia e folgas dá pra ajustar depois, no app.</div>
 
     <div class="error-box" id="setupError"></div>
-
     <button type="button" class="btn-submit" id="publishBtn">Publicar minha agenda</button>
-    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
-    <div class="setup-offer">
-      <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
-      <div class="setup-offer-text">Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</div>
-      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
-    </div>
-    <div class="skip-row"><button type="button" id="skipSetupBtn">Prefiro configurar depois no app</button></div>
   </div>
 
-  <div class="card hidden" id="publishedView">
+  <!-- ============ Link no ar (comemoração) ============ -->
+  <div class="card hidden" id="liveView">
     <div class="success-icon">🎉</div>
     <h1 id="publishedTitle">Sua agenda está no ar!</h1>
-    <!-- Quem publica pelo site fecha a tela achando que acabou e nunca baixa o app: chamada logo abaixo do título -->
-    <div class="app-warning">
-      <div class="app-warning-title">📱 Gerencie tudo pelo app no iPhone e Android</div>
-      <div class="app-warning-text">Seus clientes já podem marcar pelo link. No app você vê sua agenda e confirma, remarca ou cancela os horários. <b>Baixe agora no seu celular:</b></div>
+    <p class="subtitle">Seus clientes já podem marcar sozinhos por este link:</p>
+    <a href="#" target="_blank" rel="noopener" class="link-box" id="bookingLink"></a>
+    <div class="link-actions">
+      <button type="button" class="js-copy-link">Copiar link</button>
+      <a href="#" target="_blank" rel="noopener" class="js-view-link">Ver minha página</a>
     </div>
+
+    <div class="next-steps">
+      <div class="next-steps-label">Faltam 2 passos rápidos pra não perder nenhum agendamento:</div>
+      <div class="todo-row"><div class="step-num">3</div><div class="step-text">Conectar seu WhatsApp pra <b>confirmação e lembrete automáticos</b></div></div>
+      <div class="todo-row"><div class="step-num">4</div><div class="step-text">Baixar o app pra <b>ver sua agenda</b></div></div>
+    </div>
+    <button type="button" class="btn-submit" id="liveNextBtn">Continuar</button>
+  </div>
+
+  <!-- ============ Passo 3: WhatsApp ============ -->
+  <div class="card hidden" id="waView">
+    <div class="wiz-top">
+      <div class="card-eyebrow"><div class="eyebrow-dot"></div>Leva 1 minuto</div>
+      <span class="wiz-count">Passo 3 de 5</span>
+    </div>
+    <div class="wiz-bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <h1>Conecte seu WhatsApp</h1>
+    <p class="subtitle">A confirmação e o lembrete saem <b>do seu número</b>. Menos faltas, e quando a cliente responde, cai direto pra você.</p>
+
+    <!-- Celular: código de 8 caracteres (não dá pra ler um QR na própria tela) -->
+    <div id="waCodeBox" class="hidden">
+      <label for="waPhone">Seu número do WhatsApp</label>
+      <input id="waPhone" type="tel" inputmode="tel" placeholder="(11) 98765-4321" autocomplete="tel" maxlength="16">
+      <button type="button" class="step-btn wa btn-full" id="waCodeBtn">Gerar código de conexão</button>
+      <div id="waCodeArea" class="hidden">
+        <div class="code-card">
+          <div class="code-label">Seu código de conexão</div>
+          <div class="code-value" id="waCodeValue">····-····</div>
+          <button type="button" class="code-copy" id="waCodeCopy">Copiar código</button>
+          <div class="code-hint">O código muda sozinho a cada minuto. Use o que estiver aparecendo.</div>
+        </div>
+        <ol class="wa-steps">
+          <li>Abra o <b>WhatsApp</b> → <b>⋮</b> (no iPhone, <b>Configurações</b>) → <b>Aparelhos conectados</b> → <b>Conectar aparelho</b></li>
+          <li>Toque em <b>"Conectar com número de telefone"</b></li>
+          <li>Digite o código acima. Volte aqui: esta tela confirma sozinha.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Computador: QR lido pelo celular -->
+    <div id="waQrBox" class="hidden">
+      <button type="button" class="step-btn wa btn-full" id="waQrBtn">Mostrar QR code</button>
+      <div id="waQrArea" class="hidden">
+        <img id="waQrImg" alt="QR code para conectar o WhatsApp">
+        <ol class="wa-steps">
+          <li>No celular, abra o <b>WhatsApp</b> → <b>⋮</b> (no iPhone, <b>Configurações</b>)</li>
+          <li>Toque em <b>Aparelhos conectados</b> → <b>Conectar aparelho</b></li>
+          <li>Aponte a câmera pro QR. Esta tela confirma sozinha.</li>
+        </ol>
+        <div class="code-hint">O QR se renova sozinho a cada 20 segundos.</div>
+      </div>
+    </div>
+
+    <div id="waDone" class="done-box hidden">✅ WhatsApp conectado! A confirmação e o lembrete vão sair pelo seu número.</div>
+    <div id="waError" class="alert-box hidden"></div>
+    <div id="waNoToken" class="hint hidden">Dá pra conectar pelo app: na tela inicial, toque em <b>"Conecte seu WhatsApp"</b>.</div>
+
+    <!-- Pulou/travou: mesma oferta "a gente configura pra você" (grava setup_requested_at) -->
+    <div class="setup-offer">
+      <div class="setup-offer-title">Travou ou prefere ajuda?</div>
+      <div class="setup-offer-text">A gente conecta com você e deixa tudo pronto.</div>
+      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20ajuda%20pra%20conectar%20meu%20WhatsApp%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">A Agendorix configura pra você</a>
+    </div>
+    <div class="skip-row"><button type="button" id="waSkipBtn">Fazer depois</button></div>
+  </div>
+
+  <!-- ============ Passo 4: app ============ -->
+  <div class="card hidden" id="appView">
+    <div class="wiz-top">
+      <div class="card-eyebrow"><div class="eyebrow-dot"></div>Quase lá</div>
+      <span class="wiz-count">Passo 4 de 5</span>
+    </div>
+    <div class="wiz-bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <h1>Baixe o app pra ver sua agenda</h1>
+    <p class="subtitle">É nele que você vê quem marcou e confirma, remarca ou cancela os horários.</p>
+
     <!-- Só no computador: QR pra baixar o app apontando a câmera do celular (/app manda cada celular pra sua loja) -->
     <div class="app-qr hidden" id="appQrBox">
       <img src="/img/qr-baixar-app.svg" alt="QR code para baixar o app Agendorix" width="180" height="180">
       <div class="app-qr-text">Aponte a câmera do celular para o QR code e baixe o app.</div>
     </div>
-    <div class="store-row store-row-top">
-      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
-      <a href="https://apps.apple.com/br/app/agendorix/id6770764759" target="_blank" class="store-btn">🍎 App Store</a>
+    <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" rel="noopener" class="step-btn btn-full hidden" id="storePrimary">Baixar na Google Play</a>
+    <div class="store-row" id="storeRow">
+      <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" rel="noopener" class="store-btn" id="storePlay">▶ Google Play</a>
+      <a href="https://apps.apple.com/br/app/agendorix/id6770764759" target="_blank" rel="noopener" class="store-btn" id="storeApple">🍎 App Store</a>
     </div>
-    <div class="app-warning-login">🔑 E-mail: <span class="login-email"></span><br>Senha: a mesma que você criou aqui</div>
-    <p class="subtitle">Seus clientes escolhem o serviço e o horário por esse link, e você recebe o aviso no seu WhatsApp e e-mail.</p>
-
-    <a href="#" target="_blank" rel="noopener" class="link-box" id="bookingLink"></a>
-    <div class="link-box-hint">Toque no link pra ver sua página. Ela abre em outra aba, e esta tela continua aqui.</div>
-    <!-- Oferta "a gente configura pra você": o clique grava setup_requested_at (helpToken) e abre o WhatsApp -->
-    <div class="setup-offer">
-      <div class="setup-offer-title">🛠️ Sem tempo de configurar?</div>
-      <div class="setup-offer-text">Manda sua lista de serviços e horários que a gente deixa sua agenda pronta pra você.</div>
-      <a class="setup-offer-btn js-setup-offer" href="https://wa.me/5519971217637?text=Oi!%20Quero%20que%20configurem%20minha%20agenda%20no%20Agendorix.%20Meu%20neg%C3%B3cio%20%C3%A9%3A%20" target="_blank" rel="noopener">Quero que configurem pra mim</a>
+    <div class="login-box">
+      <div class="login-box-title">🔑 Depois de baixar, entre com:</div>
+      <div class="login-email-row">E-mail: <span class="login-email"></span></div>
+      <div>Senha: a mesma que você criou aqui</div>
     </div>
 
-    <div style="margin-top:18px;">
-      <div class="tutorial-label">🎬 Assista antes (1 minuto cada):</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="https://youtube.com/shorts/8grbvl-LbGs" target="_blank" rel="noopener" class="tutorial-card">
-          <div class="tutorial-thumb">
-            <img src="https://img.youtube.com/vi/8grbvl-LbGs/hqdefault.jpg" alt="Primeiros passos no Agendorix" loading="lazy">
-            <div class="tutorial-play">▶</div>
-          </div>
-          <div>
-            <div class="tutorial-title">Primeiros passos</div>
-            <div class="tutorial-desc">Baixe o app, divulgue seu link e conecte seu WhatsApp.</div>
-          </div>
-        </a>
-        <a href="https://youtube.com/shorts/iRGFTPqchFU" target="_blank" rel="noopener" class="tutorial-card">
-          <div class="tutorial-thumb">
-            <img src="https://img.youtube.com/vi/iRGFTPqchFU/hqdefault.jpg" alt="Como conectar seu WhatsApp" loading="lazy">
-            <div class="tutorial-play">▶</div>
-          </div>
-          <div>
-            <div class="tutorial-title">Como conectar seu WhatsApp</div>
-            <div class="tutorial-desc">Confirmação e lembrete saindo do seu número.</div>
-          </div>
-        </a>
-      </div>
+    <div class="wait-box" id="appWait">
+      <span class="spinner" aria-hidden="true"></span>
+      <div><b>Esperando você entrar no app…</b><small>Quando você entrar, esta tela avança sozinha.</small></div>
+    </div>
+    <div id="appDone" class="done-box hidden">✅ Você entrou no app!</div>
+    <div class="skip-row"><button type="button" id="appSkipBtn">Fazer depois</button></div>
+  </div>
+
+  <!-- ============ Passo 5: pronto ============ -->
+  <div class="card hidden" id="doneView">
+    <div class="wiz-top">
+      <div class="card-eyebrow"><div class="eyebrow-dot"></div>Agenda no ar</div>
+      <span class="wiz-count">Passo 5 de 5</span>
+    </div>
+    <div class="wiz-bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <h1>Tudo pronto! Agora chame suas clientes</h1>
+    <p class="subtitle">Mande o link pras clientes que costumam marcar com você. Elas escolhem o horário sozinhas.</p>
+
+    <div class="checklist">
+      <div class="check-row ok"><span class="check" aria-hidden="true"></span><span class="check-label">Serviços e horários</span></div>
+      <div class="check-row" id="chkWa"><span class="check" aria-hidden="true"></span><span class="check-label">WhatsApp conectado</span><button type="button" class="check-action" id="chkWaBtn">Conectar</button></div>
+      <div class="check-row" id="chkApp"><span class="check" aria-hidden="true"></span><span class="check-label">App instalado</span><button type="button" class="check-action" id="chkAppBtn">Baixar</button></div>
     </div>
 
-    <div class="next-steps">
-      <div class="next-steps-label">Agora, 3 passos rápidos:</div>
-
-      <div class="next-step">
-        <div class="next-step-head">
-          <div class="step-num">1</div>
-          <div class="step-text"><b>Baixe o app</b>. É por ele que você vê sua agenda e organiza os agendamentos.</div>
-        </div>
-        <div class="alert-box">⚠️ <b>Você criou seus serviços. Agora baixe o aplicativo no seu celular</b> pra ver sua agenda e acompanhar os agendamentos que chegarem.</div>
-        <div class="store-row">
-          <a href="https://play.google.com/store/apps/details?id=com.agendorix.app" target="_blank" class="store-btn">▶ Google Play</a>
-          <a href="https://apps.apple.com/br/app/agendorix/id6770764759" target="_blank" class="store-btn">🍎 App Store</a>
-        </div>
-        <div class="login-box">
-          <div class="login-box-title">🔑 Depois de baixar, entre com:</div>
-          <div class="login-email-row">E-mail: <span class="login-email"></span></div>
-          <div>Senha: a mesma que você criou aqui</div>
-        </div>
+    <div class="share-box">
+      <div class="share-label">Mensagem pronta pra mandar:</div>
+      <p class="share-text" id="shareText"></p>
+      <a href="#" target="_blank" rel="noopener" class="step-btn wa" id="shareWaBtn">Mandar no WhatsApp</a>
+      <div class="link-actions">
+        <button type="button" class="js-copy-link">Copiar link</button>
+        <a href="#" target="_blank" rel="noopener" class="js-view-link">Ver página e testar</a>
       </div>
+    </div>
+    <div class="step-hint">Dica: coloque o link também na bio do Instagram e no status do WhatsApp.</div>
 
-      <div class="next-step">
-        <div class="next-step-head">
-          <div class="step-num">2</div>
-          <div class="step-text" id="waStepText"><b>Conecte seu WhatsApp</b> no app (leva 1 minuto). Na tela inicial, toque em <b>"Conecte seu WhatsApp"</b>. Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.</div>
-        </div>
-        <a href="https://youtube.com/shorts/iRGFTPqchFU" target="_blank" rel="noopener" class="support-link" id="waVideoLink">▶ Ver vídeo de 1 minuto: como conectar</a>
-        <!-- Só no computador: o celular escaneia o QR da tela -->
-        <div id="waQrBox" class="hidden">
-          <button type="button" class="step-btn wa" id="waQrBtn" style="width:100%;border:0;cursor:pointer;">Conectar agora com QR code</button>
-          <div class="step-hint" id="waQrHint">Aparece um QR code pra você ler com o WhatsApp do celular.</div>
-          <div id="waQrArea" class="hidden" style="text-align:center;margin-top:12px;">
-            <img id="waQrImg" alt="QR code para conectar o WhatsApp" style="width:260px;max-width:100%;background:#fff;padding:8px;border-radius:10px;border:1.5px solid var(--gray);">
-            <div class="step-text" style="margin-top:10px;text-align:left;">No celular: abra o <b>WhatsApp</b> → <b>⋮</b> (no iPhone, <b>Configurações</b>) → <b>Aparelhos conectados</b> → <b>Conectar aparelho</b> e aponte a câmera pro QR.</div>
-          </div>
-          <div id="waQrDone" class="hidden" style="margin-top:12px;padding:12px;border-radius:10px;background:#e7f8ee;color:#127a3d;font-weight:700;text-align:center;">✅ WhatsApp conectado! A confirmação e o lembrete vão sair pelo seu número.</div>
-          <div id="waQrError" class="alert-box hidden"></div>
-          <div class="step-hint" id="waLaterHint">Prefere fazer depois? Dá pra conectar pelo app também.</div>
-        </div>
-      </div>
-
-      <div class="next-step">
-        <div class="next-step-head">
-          <div class="step-num">3</div>
-          <div class="step-text"><b>Mande pra 3 clientes</b> que costumam marcar com você. A mensagem já vai pronta.</div>
-        </div>
-        <a href="#" target="_blank" rel="noopener" class="step-btn wa" id="shareWaBtn">Mandar no WhatsApp</a>
-        <div class="link-actions">
-          <button type="button" id="copyLinkBtn">Copiar link</button>
-          <a href="#" target="_blank" rel="noopener" id="viewLinkBtn">Ver página e testar</a>
-        </div>
-        <div class="step-hint">Dica: cole o link também na bio do Instagram e no status do WhatsApp.</div>
-        <div class="support-box">
-          <div class="support-box-title">💬 Salve nosso WhatsApp: (19) 97121-7637</div>
-          <div>Se precisar de ajuda pra configurar ou tiver alguma dúvida, é só chamar. Atendimento de pessoa, não de robô 🙂</div>
-          <a href="https://wa.me/5519971217637" target="_blank" rel="noopener" class="support-link">Chamar no WhatsApp →</a>
-        </div>
-      </div>
+    <div class="support-box">
+      <div class="support-box-title">💬 Salve nosso WhatsApp: (19) 97121-7637</div>
+      <div>Se precisar de ajuda pra configurar ou tiver alguma dúvida, é só chamar. Atendimento de pessoa, não de robô 🙂</div>
+      <a href="https://wa.me/5519971217637" target="_blank" rel="noopener" class="support-link">Chamar no WhatsApp →</a>
     </div>
   </div>
 
@@ -956,13 +1062,18 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   }
 
   // ---------------------------------------------------------------
-  // Configuração da agenda sem app: tela logo depois do cadastro e
-  // link do e-mail de lembrete (?setup=TOKEN). Usa POST
-  // /public/setup/:token/publish do backend (código de uso único).
+  // Cadastro em etapas, sem app: 1 serviços → 2 horário + intervalo →
+  // link no ar → 3 WhatsApp → 4 app → 5 pronto. Vem logo depois do
+  // cadastro ou do link do e-mail de lembrete (?setup=TOKEN).
+  // Publicar usa POST /public/setup/:token/publish (código de uso único);
+  // WhatsApp e app usam o waToken (whatsapp_connect, 2h, reutilizável).
   // ---------------------------------------------------------------
   const DAY_LABELS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const DURATIONS = [15, 20, 30, 40, 45, 50, 60, 75, 90, 120, 150, 180, 240];
   const MAX_SERVICES = 8;
+  const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  const IS_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const WIZ_VIEWS = ['formView', 'svcView', 'hoursView', 'liveView', 'waView', 'appView', 'doneView', 'successView'];
   let setupToken = null;
   // Código do clique em "a gente configura pra você" (vem do backend; sem ele o botão só abre o WhatsApp)
   let helpToken = null;
@@ -971,21 +1082,37 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     fetch(`${BACKEND_URL}/public/setup-request/${encodeURIComponent(helpToken)}`, { method: 'POST', keepalive: true }).catch(() => {});
   }));
   let selectedDays = new Set([1, 2, 3, 4, 5, 6]);
+  // Estado do pós-cadastro
+  const wiz = { url: null, waToken: null, published: false, waConnected: false, appLoggedIn: false, signupPhone: '', current: 'formView' };
 
   // Cada tela vira uma entrada no histórico, pra seta de voltar do navegador
   // funcionar. mode: 'push' (nova entrada), 'replace' (troca a atual) ou
   // 'none' (vindo do próprio popstate).
   function showView(id, mode = 'push') {
-    ['formView', 'setupView', 'publishedView', 'successView'].forEach(v =>
-      document.getElementById(v).classList.toggle('hidden', v !== id));
+    WIZ_VIEWS.forEach(v => document.getElementById(v).classList.toggle('hidden', v !== id));
+    wiz.current = id;
     if (mode === 'push') history.pushState({ view: id }, '');
     else if (mode === 'replace') history.replaceState({ view: id }, '');
     window.scrollTo(0, 0);
+    onEnterView(id);
   }
 
   window.addEventListener('popstate', (e) => {
-    showView((e.state && e.state.view) || 'formView', 'none');
+    let id = (e.state && e.state.view) || 'formView';
+    // Depois de publicar, o código de uso único já foi gasto: voltar pros
+    // passos 1–2 (ou pro formulário) só daria erro — fica no link no ar.
+    if (wiz.published && ['formView', 'svcView', 'hoursView'].includes(id)) {
+      showView('liveView', 'replace');
+      return;
+    }
+    showView(id, 'none');
   });
+
+  function onEnterView(id) {
+    if (id === 'waView') enterWaStep();
+    if (id === 'appView') enterAppStep();
+    if (id === 'doneView') enterDoneStep();
+  }
 
   function durationLabel(min) {
     if (min < 60) return `${min} min`;
@@ -1021,6 +1148,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   }
 
   function fillTimeSelect(sel, def) {
+    sel.innerHTML = '';
     for (let h = 5; h <= 23; h++) {
       for (const m of [0, 30]) {
         const t = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
@@ -1032,7 +1160,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
   function renderSetup(templates, businessName, mode = 'push') {
     if (businessName) {
       document.getElementById('setupSubtitle').textContent =
-        `Leva 1 minuto. No fim você recebe o link de agendamento de “${businessName}” pra mandar pros seus clientes.`;
+        `Já deixamos alguns prontos pra “${businessName}”. Ajuste o que quiser. Preço em branco = a combinar.`;
     }
     const list = document.getElementById('svcList');
     list.innerHTML = '';
@@ -1045,19 +1173,26 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       b.type = 'button';
       b.className = 'day-chip' + (selectedDays.has(d) ? ' on' : '');
       b.textContent = DAY_LABELS[d];
+      b.setAttribute('aria-pressed', selectedDays.has(d) ? 'true' : 'false');
       b.addEventListener('click', () => {
         if (selectedDays.has(d)) selectedDays.delete(d); else selectedDays.add(d);
         b.classList.toggle('on', selectedDays.has(d));
+        b.setAttribute('aria-pressed', selectedDays.has(d) ? 'true' : 'false');
       });
       dayRow.appendChild(b);
     });
 
-    const st = document.getElementById('startTime'), en = document.getElementById('endTime');
-    st.innerHTML = ''; en.innerHTML = '';
-    fillTimeSelect(st, '09:00');
-    fillTimeSelect(en, '18:00');
-    showView('setupView', mode);
+    fillTimeSelect(document.getElementById('startTime'), '09:00');
+    fillTimeSelect(document.getElementById('endTime'), '18:00');
+    fillTimeSelect(document.getElementById('breakStart'), '12:00');
+    fillTimeSelect(document.getElementById('breakEnd'), '13:00');
+    showView('svcView', mode);
   }
+
+  const breakOn = document.getElementById('breakOn');
+  breakOn.addEventListener('change', () => {
+    document.querySelector('.break-box').classList.toggle('off', !breakOn.checked);
+  });
 
   // "35", "35,50", "R$ 1.200,00" → número; vazio → null; lixo → NaN
   function parsePrice(raw) {
@@ -1067,124 +1202,59 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
     return /^\d+(\.\d{1,2})?$/.test(s) ? Number(s) : NaN;
   }
 
-  function setupError(msg) {
-    const box = document.getElementById('setupError');
+  function boxError(id, msg) {
+    const box = document.getElementById(id);
     box.textContent = msg;
     box.style.display = msg ? 'block' : 'none';
   }
 
-  // Por padrão a tela de link substitui a de montar a agenda no histórico:
-  // o código já foi usado, voltar pra ela só daria erro.
-  function showPublished(url, alreadyConfigured, mode = 'replace', waToken = null) {
-    const linkEl = document.getElementById('bookingLink');
-    linkEl.textContent = url.replace('https://', '');
-    linkEl.href = url;
-    document.getElementById('viewLinkBtn').href = url;
-    document.getElementById('shareWaBtn').href =
-      'https://wa.me/?text=' + encodeURIComponent(`Oi! Agora dá pra marcar seu horário comigo direto por aqui, a qualquer hora, sem precisar esperar eu responder 😊 👉 ${url}`);
-    document.getElementById('copyLinkBtn').onclick = async () => {
-      const btn = document.getElementById('copyLinkBtn');
-      try { await navigator.clipboard.writeText(url); btn.textContent = 'Copiado ✓'; }
-      catch (e) { prompt('Copie o link:', url); }
-      setTimeout(() => { btn.textContent = 'Copiar link'; }, 2500);
-    };
-    if (alreadyConfigured) document.getElementById('publishedTitle').textContent = 'Sua agenda já está no ar!';
-    setupWaQr(waToken);
-    showView('publishedView', mode);
-  }
-
-  // ---------------------------------------------------------------
-  // Conectar WhatsApp por QR direto da tela final (só no computador).
-  // ---------------------------------------------------------------
-  const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  if (!IS_MOBILE) document.getElementById('appQrBox').classList.remove('hidden');
-  let waPollTimer = null;
-
-  function waQrError(msg) {
-    const box = document.getElementById('waQrError');
-    box.textContent = msg || '';
-    box.classList.toggle('hidden', !msg);
-  }
-
-  function setupWaQr(waToken) {
-    const box = document.getElementById('waQrBox');
-    if (!waToken || IS_MOBILE) { box.classList.add('hidden'); return; }
-    box.classList.remove('hidden');
-    // No computador o caminho é o QR: texto curto e sem o vídeo do app
-    document.getElementById('waStepText').innerHTML =
-      '<b>Conecte seu WhatsApp agora</b> (leva 30 segundos). Assim a confirmação e o lembrete chegam pra cliente <b>pelo seu número</b>, e quando ela responde, a mensagem cai direto pra você.';
-    document.getElementById('waVideoLink').style.display = 'none';
-    const btn = document.getElementById('waQrBtn');
-    btn.onclick = async () => {
-      waQrError('');
-      clearTimeout(waPollTimer);
-      btn.disabled = true;
-      btn.textContent = 'Gerando QR code...';
-      try {
-        const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(waToken)}/connect`, { method: 'POST' });
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.qrCode) throw new Error(json.message || 'Não foi possível gerar o QR agora. Tente de novo em instantes.');
-        document.getElementById('waQrImg').src = 'data:image/png;base64,' + json.qrCode;
-        document.getElementById('waQrArea').classList.remove('hidden');
-        document.getElementById('waQrHint').classList.add('hidden');
-        btn.textContent = 'Gerar outro QR code';
-        btn.disabled = false;
-        pollWa(waToken, Date.now(), Date.now());
-      } catch (e) {
-        waQrError(e.message || 'Não foi possível conectar. Verifique sua internet e tente de novo.');
-        btn.textContent = 'Conectar agora com QR code';
-        btn.disabled = false;
-      }
-    };
-  }
-
-  // Confere a cada 3 s; troca o QR a cada ~20 s (o WhatsApp renova o código); para em 4 min.
-  function pollWa(waToken, startedAt, lastQrAt) {
-    if (Date.now() - startedAt > 4 * 60 * 1000) {
-      document.getElementById('waQrArea').classList.add('hidden');
-      waQrError('O QR code expirou. Clique em "Gerar outro QR code" pra tentar de novo.');
-      return;
-    }
-    waPollTimer = setTimeout(async () => {
-      const wantQr = Date.now() - lastQrAt > 20000;
-      try {
-        const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(waToken)}/status${wantQr ? '?withQr=1' : ''}`);
-        const json = await res.json().catch(() => ({}));
-        if (json.status === 'open') {
-          document.getElementById('waQrArea').classList.add('hidden');
-          document.getElementById('waQrBtn').classList.add('hidden');
-          document.getElementById('waLaterHint').classList.add('hidden');
-          document.getElementById('waQrDone').classList.remove('hidden');
-          return;
-        }
-        if (json.qrCode) { document.getElementById('waQrImg').src = 'data:image/png;base64,' + json.qrCode; lastQrAt = Date.now(); }
-      } catch (e) { /* tenta de novo no próximo ciclo */ }
-      pollWa(waToken, startedAt, lastQrAt);
-    }, 3000);
-  }
-
-  document.getElementById('addSvcBtn').addEventListener('click', () => addServiceRow('', 60));
-  document.getElementById('skipSetupBtn').addEventListener('click', () => showView('successView'));
-
-  document.getElementById('publishBtn').addEventListener('click', async () => {
-    setupError('');
+  // Passo 1 → valida e guarda os serviços (só vão pro backend no publicar)
+  let pendingServices = [];
+  function collectServices() {
     const services = [];
     for (const row of document.querySelectorAll('#svcList .svc-row')) {
       if (!row.querySelector('.svc-on').checked) continue;
       const name = row.querySelector('.svc-name').value.trim();
       const priceRaw = row.querySelector('.svc-price').value;
       if (!name) {
-        if (priceRaw.trim()) { setupError('Tem um serviço com preço mas sem nome.'); return; }
+        if (priceRaw.trim()) return { error: 'Tem um serviço com preço mas sem nome.' };
         continue; // linha em branco: ignora
       }
       const price = parsePrice(priceRaw);
-      if (Number.isNaN(price) || price === 0) { setupError(`Preço inválido em "${name}". Use só números, ex: 35 ou 35,50 — ou deixe em branco.`); return; }
+      if (Number.isNaN(price) || price === 0) return { error: `Preço inválido em "${name}". Use só números, ex: 35 ou 35,50 — ou deixe em branco.` };
       services.push({ name, durationMinutes: Number(row.querySelector('.svc-dur').value), price });
     }
-    if (services.length === 0) { setupError('Marque pelo menos um serviço.'); return; }
-    if (selectedDays.size === 0) { setupError('Escolha pelo menos um dia de atendimento.'); return; }
+    if (services.length === 0) return { error: 'Marque pelo menos um serviço.' };
+    return { services };
+  }
+
+  document.getElementById('addSvcBtn').addEventListener('click', () => addServiceRow('', 60));
+  document.getElementById('svcNextBtn').addEventListener('click', () => {
+    boxError('svcError', '');
+    const r = collectServices();
+    if (r.error) { boxError('svcError', r.error); return; }
+    pendingServices = r.services;
+    showView('hoursView');
+  });
+  document.getElementById('hoursBackBtn').addEventListener('click', () => history.back());
+
+  // Passo 2 → publica (serviços + dias + horário + intervalo)
+  document.getElementById('publishBtn').addEventListener('click', async () => {
+    boxError('setupError', '');
+    const r = collectServices();
+    if (r.error) { boxError('setupError', r.error); return; }
+    if (selectedDays.size === 0) { boxError('setupError', 'Escolha pelo menos um dia de atendimento.'); return; }
     const start = document.getElementById('startTime').value, end = document.getElementById('endTime').value;
-    if (start >= end) { setupError('O horário de início precisa ser antes do fim.'); return; }
+    if (start >= end) { boxError('setupError', 'O horário de início precisa ser antes do fim.'); return; }
+    let breakStart = null, breakEnd = null;
+    if (breakOn.checked) {
+      breakStart = document.getElementById('breakStart').value;
+      breakEnd = document.getElementById('breakEnd').value;
+      if (!(start < breakStart && breakStart < breakEnd && breakEnd < end)) {
+        boxError('setupError', 'O intervalo precisa ficar dentro do horário de atendimento, com início antes do fim. Se não faz intervalo, desligue a opção.');
+        return;
+      }
+    }
 
     const btn = document.getElementById('publishBtn');
     btn.disabled = true;
@@ -1193,25 +1263,269 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       const res = await fetch(`${BACKEND_URL}/public/setup/${encodeURIComponent(setupToken)}/publish`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ services, days: [...selectedDays], start, end }),
+        body: JSON.stringify({ services: r.services, days: [...selectedDays], start, end, breakStart, breakEnd }),
       });
       const json = await res.json().catch(() => ({}));
       if (json.helpToken) helpToken = json.helpToken;
-      if (res.ok) { showPublished(json.url, false, 'replace', json.waToken); return; }
+      if (res.ok) { showPublished(json.url, false, json.waToken); return; }
       if (json.error === 'already_configured' && json.slug) {
-        showPublished(`https://book.agendorix.com.br/${json.slug}`, true, 'replace', json.waToken); return;
+        showPublished(`https://book.agendorix.com.br/${json.slug}`, true, json.waToken); return;
       }
       if (json.error === 'invalid_or_expired') {
-        setupError('Esse link expirou ou já foi usado. Entre no app do Agendorix com seu e-mail e senha pra configurar sua agenda.');
+        boxError('setupError', 'Esse link expirou ou já foi usado. Entre no app do Agendorix com seu e-mail e senha pra configurar sua agenda.');
       } else {
-        setupError(json.message || 'Não foi possível publicar agora. Tente de novo em instantes.');
+        boxError('setupError', json.message || 'Não foi possível publicar agora. Tente de novo em instantes.');
       }
     } catch (e) {
-      setupError('Não foi possível conectar. Verifique sua internet e tente de novo.');
+      boxError('setupError', 'Não foi possível conectar. Verifique sua internet e tente de novo.');
     }
     btn.disabled = false;
     btn.textContent = 'Publicar minha agenda';
   });
+
+  // Link no ar: a tela substitui a do passo 2 no histórico (o código já foi usado)
+  function showPublished(url, alreadyConfigured, waToken) {
+    wiz.url = url;
+    wiz.waToken = waToken || null;
+    wiz.published = true;
+    const linkEl = document.getElementById('bookingLink');
+    linkEl.textContent = url.replace('https://', '');
+    linkEl.href = url;
+    document.querySelectorAll('.js-view-link').forEach(a => { a.href = url; });
+    const msg = `Oi! Agora dá pra marcar seu horário comigo direto por aqui, a qualquer hora, sem precisar esperar eu responder 😊 👉 ${url}`;
+    document.getElementById('shareText').textContent = msg;
+    document.getElementById('shareWaBtn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    document.querySelectorAll('.js-copy-link').forEach(btn => {
+      const label = btn.textContent;
+      btn.onclick = async () => {
+        try { await navigator.clipboard.writeText(url); btn.textContent = 'Copiado ✓'; }
+        catch (e) { prompt('Copie o link:', url); }
+        setTimeout(() => { btn.textContent = label; }, 2500);
+      };
+    });
+    if (alreadyConfigured) document.getElementById('publishedTitle').textContent = 'Sua agenda já está no ar!';
+    showView('liveView', 'replace');
+  }
+  document.getElementById('liveNextBtn').addEventListener('click', () => showView('waView'));
+
+  // ---------------------------------------------------------------
+  // Passo 3: WhatsApp. Celular = código de 8 caracteres; computador = QR.
+  // ---------------------------------------------------------------
+  let waPollTimer = null;
+  function waError(msg) {
+    const box = document.getElementById('waError');
+    box.textContent = msg || '';
+    box.classList.toggle('hidden', !msg);
+  }
+  function formatPhone(d) {
+    d = (d || '').replace(/\D/g, '').slice(0, 11);
+    if (d.length > 7) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    if (d.length > 2) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    return d;
+  }
+  function formatCode(c) {
+    const s = String(c || '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+    return s.length === 8 ? `${s.slice(0, 4)}-${s.slice(4)}` : s;
+  }
+  const waPhone = document.getElementById('waPhone');
+  waPhone.addEventListener('input', () => { waPhone.value = formatPhone(waPhone.value); });
+
+  function markWaConnected() {
+    wiz.waConnected = true;
+    clearTimeout(waPollTimer);
+    ['waCodeBox', 'waQrBox', 'waError'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById('waDone').classList.remove('hidden');
+    document.getElementById('waSkipBtn').textContent = 'Continuar';
+    // Avança sozinho, se a pessoa ainda estiver nesta tela
+    setTimeout(() => { if (wiz.current === 'waView') showView('appView'); }, 1800);
+  }
+
+  async function fetchWaStatus(query = '') {
+    const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(wiz.waToken)}/status${query}`);
+    return res.json().catch(() => ({}));
+  }
+
+  async function enterWaStep() {
+    waError('');
+    const noToken = !wiz.waToken;
+    document.getElementById('waNoToken').classList.toggle('hidden', !noToken);
+    document.getElementById('waCodeBox').classList.toggle('hidden', noToken || !IS_MOBILE || wiz.waConnected);
+    document.getElementById('waQrBox').classList.toggle('hidden', noToken || IS_MOBILE || wiz.waConnected);
+    document.getElementById('waDone').classList.toggle('hidden', !wiz.waConnected);
+    if (!waPhone.value && wiz.signupPhone) waPhone.value = formatPhone(wiz.signupPhone);
+    if (noToken || wiz.waConnected) return;
+    // Já conectado antes (ex.: voltou pelo histórico ou conectou pelo app)?
+    try { const s = await fetchWaStatus(); if (s.status === 'open') markWaConnected(); } catch (e) { /* segue */ }
+  }
+
+  // Celular: gera o código e relê o vigente a cada 4 s (muda a cada ~50 s); para em 4 min
+  document.getElementById('waCodeBtn').addEventListener('click', async () => {
+    waError('');
+    clearTimeout(waPollTimer);
+    const btn = document.getElementById('waCodeBtn');
+    const digits = waPhone.value.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 11) { waError('Informe o número do seu WhatsApp com DDD, ex: (11) 98765-4321.'); return; }
+    btn.disabled = true;
+    btn.textContent = 'Gerando código...';
+    try {
+      const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(wiz.waToken)}/pair`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: digits }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.code) throw new Error(json.message || 'Não foi possível gerar o código agora. Tente de novo em instantes.');
+      document.getElementById('waCodeValue').textContent = formatCode(json.code);
+      document.getElementById('waCodeArea').classList.remove('hidden');
+      btn.textContent = 'Gerar outro código';
+      btn.disabled = false;
+      pollWaCode(Date.now());
+    } catch (e) {
+      waError(e.message || 'Não foi possível conectar. Verifique sua internet e tente de novo.');
+      btn.textContent = 'Gerar código de conexão';
+      btn.disabled = false;
+    }
+  });
+  document.getElementById('waCodeCopy').addEventListener('click', async () => {
+    const btn = document.getElementById('waCodeCopy');
+    const code = document.getElementById('waCodeValue').textContent.replace('-', '');
+    try { await navigator.clipboard.writeText(code); btn.textContent = 'Copiado ✓'; } catch (e) { /* mostra na tela mesmo */ }
+    setTimeout(() => { btn.textContent = 'Copiar código'; }, 2500);
+  });
+
+  function pollWaCode(startedAt) {
+    if (Date.now() - startedAt > 4 * 60 * 1000) {
+      document.getElementById('waCodeArea').classList.add('hidden');
+      waError('O código expirou. Toque em "Gerar outro código" pra tentar de novo.');
+      return;
+    }
+    waPollTimer = setTimeout(async () => {
+      if (wiz.current !== 'waView') return;
+      try {
+        const s = await fetchWaStatus('?withCode=1');
+        if (s.status === 'open') { markWaConnected(); return; }
+        if (s.pairingCode) document.getElementById('waCodeValue').textContent = formatCode(s.pairingCode);
+      } catch (e) { /* tenta de novo no próximo ciclo */ }
+      pollWaCode(startedAt);
+    }, 4000);
+  }
+
+  // Computador: QR. Confere a cada 3 s; troca o QR a cada ~20 s; para em 4 min.
+  document.getElementById('waQrBtn').addEventListener('click', async () => {
+    waError('');
+    clearTimeout(waPollTimer);
+    const btn = document.getElementById('waQrBtn');
+    btn.disabled = true;
+    btn.textContent = 'Gerando QR code...';
+    try {
+      const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(wiz.waToken)}/connect`, { method: 'POST' });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.qrCode) throw new Error(json.message || 'Não foi possível gerar o QR agora. Tente de novo em instantes.');
+      document.getElementById('waQrImg').src = 'data:image/png;base64,' + json.qrCode;
+      document.getElementById('waQrArea').classList.remove('hidden');
+      btn.textContent = 'Gerar outro QR code';
+      btn.disabled = false;
+      pollWaQr(Date.now(), Date.now());
+    } catch (e) {
+      waError(e.message || 'Não foi possível conectar. Verifique sua internet e tente de novo.');
+      btn.textContent = 'Mostrar QR code';
+      btn.disabled = false;
+    }
+  });
+
+  function pollWaQr(startedAt, lastQrAt) {
+    if (Date.now() - startedAt > 4 * 60 * 1000) {
+      document.getElementById('waQrArea').classList.add('hidden');
+      waError('O QR code expirou. Clique em "Gerar outro QR code" pra tentar de novo.');
+      return;
+    }
+    waPollTimer = setTimeout(async () => {
+      if (wiz.current !== 'waView') return;
+      const wantQr = Date.now() - lastQrAt > 20000;
+      try {
+        const s = await fetchWaStatus(wantQr ? '?withQr=1' : '');
+        if (s.status === 'open') { markWaConnected(); return; }
+        if (s.qrCode) { document.getElementById('waQrImg').src = 'data:image/png;base64,' + s.qrCode; lastQrAt = Date.now(); }
+      } catch (e) { /* tenta de novo no próximo ciclo */ }
+      pollWaQr(startedAt, lastQrAt);
+    }, 3000);
+  }
+
+  document.getElementById('waSkipBtn').addEventListener('click', () => { clearTimeout(waPollTimer); showView('appView'); });
+
+  // ---------------------------------------------------------------
+  // Passo 4: app. Consulta a cada 4 s se a pessoa já entrou no app
+  // (1º login); quando entra, avança sozinho. Para em 30 min.
+  // ---------------------------------------------------------------
+  let appPollTimer = null;
+  if (!IS_MOBILE) {
+    document.getElementById('appQrBox').classList.remove('hidden');
+  } else {
+    // No celular: um botão grande da loja certa + a outra loja pequena embaixo
+    const primary = document.getElementById('storePrimary');
+    primary.classList.remove('hidden');
+    if (IS_IOS) {
+      primary.href = document.getElementById('storeApple').href;
+      primary.textContent = 'Baixar na App Store';
+      document.getElementById('storeApple').classList.add('hidden');
+    } else {
+      document.getElementById('storePlay').classList.add('hidden');
+    }
+  }
+
+  function markAppLoggedIn() {
+    wiz.appLoggedIn = true;
+    clearTimeout(appPollTimer);
+    document.getElementById('appWait').classList.add('hidden');
+    document.getElementById('appDone').classList.remove('hidden');
+    document.getElementById('appSkipBtn').textContent = 'Continuar';
+    setTimeout(() => { if (wiz.current === 'appView') showView('doneView'); }, 1800);
+  }
+
+  async function fetchAppLogin() {
+    const res = await fetch(`${BACKEND_URL}/public/whatsapp/${encodeURIComponent(wiz.waToken)}/app-login`);
+    const json = await res.json().catch(() => ({}));
+    return Boolean(json.loggedIn);
+  }
+
+  function enterAppStep() {
+    clearTimeout(appPollTimer);
+    const canWatch = Boolean(wiz.waToken) && !wiz.appLoggedIn;
+    document.getElementById('appWait').classList.toggle('hidden', !canWatch);
+    document.getElementById('appDone').classList.toggle('hidden', !wiz.appLoggedIn);
+    if (!wiz.waToken) document.getElementById('appSkipBtn').textContent = 'Continuar';
+    if (!canWatch) return;
+    const startedAt = Date.now();
+    const tick = async () => {
+      if (wiz.current !== 'appView') return;
+      try { if (await fetchAppLogin()) { markAppLoggedIn(); return; } } catch (e) { /* tenta de novo */ }
+      if (Date.now() - startedAt < 30 * 60 * 1000) appPollTimer = setTimeout(tick, 4000);
+    };
+    tick();
+  }
+  document.getElementById('appSkipBtn').addEventListener('click', () => { clearTimeout(appPollTimer); showView('doneView'); });
+
+  // ---------------------------------------------------------------
+  // Passo 5: pronto. Checklist com o que já foi feito (confere de novo
+  // no backend: a pessoa pode ter conectado/entrado por fora).
+  // ---------------------------------------------------------------
+  function renderChecklist() {
+    document.getElementById('chkWa').classList.toggle('ok', wiz.waConnected);
+    document.getElementById('chkApp').classList.toggle('ok', wiz.appLoggedIn);
+  }
+  async function enterDoneStep() {
+    renderChecklist();
+    if (!wiz.waToken) return;
+    try {
+      const [s, logged] = await Promise.all([
+        wiz.waConnected ? Promise.resolve({ status: 'open' }) : fetchWaStatus(),
+        wiz.appLoggedIn ? Promise.resolve(true) : fetchAppLogin(),
+      ]);
+      if (s.status === 'open') wiz.waConnected = true;
+      if (logged) wiz.appLoggedIn = true;
+      renderChecklist();
+    } catch (e) { /* mantém o que já sabia */ }
+  }
+  document.getElementById('chkWaBtn').addEventListener('click', () => showView('waView'));
+  document.getElementById('chkAppBtn').addEventListener('click', () => showView('appView'));
 
   // Mostra no lembrete de login o e-mail exato do cadastro. Sem ele (quem
   // chega pelo link do e-mail de lembrete), cai num texto genérico.
@@ -1231,9 +1545,9 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
         if (!ok) throw new Error(json.message || 'invalid');
         if (json.helpToken) helpToken = json.helpToken;
         if (json.alreadyConfigured) {
-          showPublished(`https://book.agendorix.com.br/${json.slug}`, true);
+          showPublished(`https://book.agendorix.com.br/${json.slug}`, true, json.waToken);
         } else {
-          document.querySelector('#setupView .card-eyebrow').innerHTML = '<div class="eyebrow-dot"></div>Falta pouco';
+          document.getElementById('svcEyebrow').innerHTML = '<div class="eyebrow-dot"></div>Falta pouco';
           renderSetup(json.templates, json.businessName, 'replace');
         }
       })
@@ -1352,6 +1666,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
           captchaToken,
           segment,
           attribution: readAttribution(),
+          device: IS_MOBILE ? 'mobile' : 'desktop',
         }),
       });
 
@@ -1370,6 +1685,7 @@ src="https://www.facebook.com/tr?id=960179649694618&ev=PageView&noscript=1"
       }
 
       fillLoginEmail(email);
+      wiz.signupPhone = phone;
       if (json.helpToken) helpToken = json.helpToken;
 
       // Negócio já criado no cadastro → monta a agenda aqui mesmo, sem app.
